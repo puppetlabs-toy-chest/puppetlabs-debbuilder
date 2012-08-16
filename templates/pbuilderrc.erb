@@ -14,7 +14,7 @@ OLD_STABLE_BACKPORTS_SUITE="$OLD_STABLE_CODENAME-backports"
 DEBIAN_SUITES=($UNSTABLE_CODENAME $TESTING_CODENAME $STABLE_CODENAME $OLD_STABLE_CODENAME "unstable" "testing" "stable")
 
 # List of Ubuntu suites. Update these when needed.
-UBUNTU_SUITES=("maverick" "lucid" "karmic" "jaunty" "hardy" "natty" "oneiric" "precise")
+UBUNTU_SUITES=("maverick" "lucid" "karmic" "jaunty" "hardy" "natty" "oneiric" "precise" "quantal")
 
 # Mirrors to use. Update these to your preferred mirror.
 DEBIAN_MIRROR="ftp.us.debian.org"
@@ -63,7 +63,7 @@ if [ -n "${ARCH}" ]; then
 fi
 #BASETGZ="/var/cache/pbuilder/$NAME-base.tgz"
 # Optionally, set BASEPATH (and not BASETGZ) if using cowbuilder
-BASEPATH="/var/cache/pbuilder/base-${NAME}.cow/"
+BASEPATH="<%= scope.lookupvar("debbuilder::setup::cows::cow_root") %>/base-${NAME}.cow/"
 DISTRIBUTION="$DIST"
 BUILDRESULT="/var/cache/pbuilder/${NAME}/result/"
 APTCACHE="/var/cache/pbuilder/${NAME}/aptcache/"
@@ -75,7 +75,7 @@ OTHERMIRROR="deb http://apt.puppetlabs.com ${DIST} main dependencies"
 DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/puppetlabs-keyring.gpg")
 APTKEYRINGS="/usr/share/keyrings/puppetlabs-keyring.gpg"
 
-<% if @pe then %>
+<% if scope.lookupvar("debbuilder::setup::cows::pe") then %>
 if [ -n "${PE_VER}" ]; then
   OTHERMIRROR="${OTHERMIRROR} | deb http://freight.puppetlabs.lan ${PE_VER} ${DIST}"
 

@@ -11,7 +11,7 @@ class debbuilder::packages::extra {
     "bash-completion",
   ]
 
-  package { $extra_packages: ensure => latest, }
+  package { $extra_packages: ensure => present, }
 
   # The ubuntu-keyring isn't currently packaged for debian. Until that changes,
   # it is being included as a source file deb.

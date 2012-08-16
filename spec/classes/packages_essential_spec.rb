@@ -15,6 +15,6 @@ describe 'debbuilder::packages::essential', :type => :class do
   ]
 
   packages.each do |pkg|
-    it { should contain_package(pkg).with_ensure("latest") }
+    it { should contain_package(pkg).with_ensure("present") }
   end
 end

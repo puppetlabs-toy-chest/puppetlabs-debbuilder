@@ -3,23 +3,45 @@ require 'spec_helper'
 describe 'debbuilder::setup::cow_exec', :type => :define do
   let(:title) { "squeeze" }
 
-  let :cow_root do
-    "/var/cache/pbuilder/cows"
+  let :default_params do
+    { :cow_root => "/var/cache/pbuilder", }
   end
 
-  let :params do
-    { :cow_root => cow_root }
-  end
+  [
+    { :cow_root => "/var/cows/root", },
+    {},
+  ].each do |param_set|
+    context "when #{param_set == {} ? "using default" : "specifying"} class parameters" do
+      let :param_hash do
+        default_params.merge(param_set)
+      end
 
-  ['i386','amd64'].each do | arch |
-    it { should contain_exec("#{title}-#{arch}").with( {
-        'path'          => "/usr/sbin:/usr/bin:/bin:/sbin",
-        'command'       => "cowbuilder --create --dist #{title} --architecture #{arch} --debug",
-        'unless'        => "test -e #{cow_root}/base-#{title}-#{arch}.cow",
-        'environment'   => ["DIST=#{title}", "ARCH=#{arch}"],
-        'logoutput'     => "on_failure",
-        'timeout'       => "0",
-      } )
-    }
+      let :params do
+        param_set
+      end
+
+      ['i386','amd64'].each do | arch |
+        it do should contain_exec("#{title}-#{arch}").with( {
+            :path         => "/usr/sbin:/usr/bin:/bin:/sbin",
+            :command      => "cowbuilder --create --basepath=#{param_hash[:cow_root]} --debug",
+            :unless       => "test -e #{param_hash[:cow_root]}/base-#{title}-#{arch}.cow",
+            :environment  => ["DIST=#{title}", "ARCH=#{arch}"],
+            :logoutput    => "on_failure",
+            :user         => "root",
+            :timeout      => "0",
+          } )
+        end
+
+        it do should contain_cron("#{title}-#{arch}").with({
+            :command      => "cowbuilder --update --basepath=#{param_hash[:cow_root]}",
+            :environment  => "DIST=#{title} ARCH=#{arch} PATH=/usr/sbin:/usr/bin:/bin:/sbin",
+            :hour         => "2",
+            :minute       => "15",
+            :user         => "root",
+            :name         => "cowbuilder update for #{title}-#{arch}",
+          })
+        end
+      end
+    end
   end
 end

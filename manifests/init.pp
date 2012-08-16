@@ -2,19 +2,12 @@ class debbuilder(
   $pe = false,
   $use_cows = false,
   $cows = undef,
+  $cow_root = undef,
 ) {
   class { debbuilder::packages::essential: }
 
   if ($use_cows) {
     class { debbuilder::packages::extra: }
-    if $cows {
-      class { debbuilder::setup::cows: cows => $cows, }
-    } else {
-      class { debbuilder::setup::cows: }
-    }
-  }
-
-  if ($pe) {
-    class { debbuilder::setup::pe: }
+    class { debbuilder::setup::cows: cows => $cows, cow_root => $cow_root, pe => $pe }
   }
 }

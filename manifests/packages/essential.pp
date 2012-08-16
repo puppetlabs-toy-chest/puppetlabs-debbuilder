@@ -13,6 +13,6 @@ class debbuilder::packages::essential {
     "pristine-tar",
   ]
 
-  package { $builder_packages: ensure => latest, }
+  package { $builder_packages: ensure => present, }
 
 }

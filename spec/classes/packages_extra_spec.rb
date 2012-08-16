@@ -12,7 +12,7 @@ describe 'debbuilder::packages::extra', :type => :class do
   ]
 
   packages.each do |pkg|
-    it { should contain_package(pkg).with_ensure("latest") }
+    it { should contain_package(pkg).with_ensure("present") }
   end
 
   it do should contain_package("ubuntu-keyring").with({
