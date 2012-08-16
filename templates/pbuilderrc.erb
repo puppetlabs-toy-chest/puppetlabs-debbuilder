@@ -1,0 +1,114 @@
+set -e
+BUILDRESULTUID=$SUDO_UID
+ALLOWUNTRUSTED=yes
+# Codenames for Debian suites according to their alias. Update these when
+# needed.
+UNSTABLE_CODENAME="sid"
+TESTING_CODENAME="wheezy"
+STABLE_CODENAME="squeeze"
+STABLE_BACKPORTS_SUITE="$STABLE_CODENAME-backports"
+OLD_STABLE_CODENAME="lenny"
+OLD_STABLE_BACKPORTS_SUITE="$OLD_STABLE_CODENAME-backports"
+
+# List of Debian suites.
+DEBIAN_SUITES=($UNSTABLE_CODENAME $TESTING_CODENAME $STABLE_CODENAME $OLD_STABLE_CODENAME "unstable" "testing" "stable")
+
+# List of Ubuntu suites. Update these when needed.
+UBUNTU_SUITES=("maverick" "lucid" "karmic" "jaunty" "hardy" "natty" "oneiric" "precise")
+
+# Mirrors to use. Update these to your preferred mirror.
+DEBIAN_MIRROR="ftp.us.debian.org"
+DEBIAN_ARCHIVE_MIRROR="archive.debian.org"
+UBUNTU_MIRROR="us.archive.ubuntu.com"
+
+# Optionally use the changelog of a package to determine the suite to use if
+# none set.
+if [ -z "${DIST}" ] && [ -r "debian/changelog" ]; then
+    DIST=$(dpkg-parsechangelog | awk '/^Distribution: / {print $2}')
+    # Use the unstable suite for certain suite values.
+    if $(echo "experimental UNRELEASED" | grep -q $DIST); then
+        DIST="$UNSTABLE_CODENAME"
+    fi
+fi
+
+# Optionally set a default distribution if none is used. Note that you can set
+# your own default (i.e. ${DIST:="unstable"}).
+: ${DIST:="$(lsb_release --short --codename)"}
+
+# Optionally change Debian release states in $DIST to their names.
+case "$DIST" in
+    unstable)
+        DIST="$UNSTABLE_CODENAME"
+        ;;
+    testing)
+        DIST="$TESTING_CODENAME"
+        ;;
+    stable)
+        DIST="$STABLE_CODENAME"
+        ;;
+    oldstable)
+        DIST="$OLD_STABLE_CODENAME"
+        ;;
+esac
+
+ 
+# Optionally set the architecture to the host architecture if none set. Note
+# that you can set your own default (i.e. ${ARCH:="i386"}).
+: ${ARCH:="$(dpkg --print-architecture)"}
+
+NAME="$DIST"
+if [ -n "${ARCH}" ]; then
+    NAME="$NAME-$ARCH"
+    DEBOOTSTRAPOPTS=("--arch" "$ARCH" "${DEBOOTSTRAPOPTS[@]}")
+fi
+#BASETGZ="/var/cache/pbuilder/$NAME-base.tgz"
+# Optionally, set BASEPATH (and not BASETGZ) if using cowbuilder
+BASEPATH="/var/cache/pbuilder/base-${NAME}.cow/"
+DISTRIBUTION="$DIST"
+BUILDRESULT="/var/cache/pbuilder/${NAME}/result/"
+APTCACHE="/var/cache/pbuilder/${NAME}/aptcache/"
+BUILDPLACE="/var/cache/pbuilder/build/"
+#BINDMOUNTS="/var/cache/archive"
+OTHERMIRROR="deb http://apt.puppetlabs.com ${DIST} main dependencies"
+
+# Add apt.puppetlabs.com keyrings
+DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/puppetlabs-keyring.gpg")
+APTKEYRINGS="/usr/share/keyrings/puppetlabs-keyring.gpg"
+
+<% if @pe then %>
+if [ -n "${PE_VER}" ]; then
+  OTHERMIRROR="${OTHERMIRROR} | deb http://freight.puppetlabs.lan ${PE_VER} ${DIST}"
+
+  # Add pluto
+  DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/pluto-build-keyring.gpg")
+  APTKEYRINGS=("${APTKEYRINGS[@]}" "/usr/share/keyrings/pluto-build-keyring.gpg")
+fi
+<% end %>
+
+if $(echo ${DEBIAN_SUITES[@]} | grep -q $DIST); then
+    # Debian configuration
+    if [ $DIST = "lenny" ]; then
+      MIRRORSITE="http://$DEBIAN_ARCHIVE_MIRROR/debian/"
+    else
+      MIRRORSITE="http://$DEBIAN_MIRROR/debian/"
+    fi
+    COMPONENTS="main contrib non-free"
+    DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/debian-archive-keyring.gpg")
+    # This is for enabling backports for the Debian stable suite.
+    if $(echo "$STABLE_CODENAME stable" | grep -q $DIST); then
+        EXTRAPACKAGES="$EXTRAPACKAGES"
+        OTHERMIRROR="$OTHERMIRROR"
+    fi
+elif $(echo ${UBUNTU_SUITES[@]} | grep -q $DIST); then
+    # Ubuntu configuration
+    MIRRORSITE="http://$UBUNTU_MIRROR/ubuntu/"
+    COMPONENTS="main restricted universe multiverse"
+    DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/ubuntu-archive-keyring.gpg")
+    OTHERMIRROR="$OTHERMIRROR"
+else
+    echo "Unknown distribution: $DIST"
+    exit 1
+fi
+
+# Workaround for http://bugs.debian.org/531885
+umask 022
