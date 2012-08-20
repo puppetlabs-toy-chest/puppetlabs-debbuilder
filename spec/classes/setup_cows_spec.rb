@@ -33,36 +33,58 @@ describe 'debbuilder::setup::cows', :type => :class do
             end
           end
 
+          keyrings = ["ubuntu-archive-keyring.gpg", "ubuntu-master-keyring.gpg", "ubuntu-archive-removed-keys.gpg", "puppetlabs-keyring.gpg"]
+
           if param_hash[:pe] == true
-            it { should contain_file("pluto-build-keyring.gpg").with({
-                :path     => "/usr/share/keyrings/pluto-build-keyring.gpg",
+            it do should contain_file("pluto-build-keyring.gpg").with({
+                :path     => "/usr/share/keyrings//pluto-build-keyring.gpg",
                 :ensure   => "file",
-                :source   => "puppet:///modules/debbuilder/pluto-build-keyring.gpg",
+                :source   => "puppet:///modules/debbuilder//pluto-build-keyring.gpg",
                 :owner    => "root",
                 :group    => "root",
                 :mode     => "0644",
               })
-            }
+            end
+
+            it do should contain_debbuilder__setup__keyring("pluto-build-keyring.gpg").with({
+                :source     => "puppet:///modules/debbuilder/",
+                :target     => "/usr/share/keyrings/",
+              })
+            end
           elsif param_hash[:pe] == false
-            it { should_not contain_file("pluto-build-keyring.gpg").with({
-                :path     => "/usr/share/keyrings/pluto-build-keyring.gpg",
+            it do should_not contain_file("pluto-build-keyring.gpg").with({
+                :path     => "/usr/share/keyrings//pluto-build-keyring.gpg",
                 :ensure   => "file",
-                :source   => "puppet:///modules/debbuilder/pluto-build-keyring.gpg",
+                :source   => "puppet:///modules/debbuilder//pluto-build-keyring.gpg",
                 :owner    => "root",
                 :group    => "root",
                 :mode     => "0644",
               })
-            }
+            end
+
+            it do should_not contain_debbuilder__setup__keyring("pluto-build-keyring.gpg").with({
+                :source     => "puppet:///modules/debbuilder/",
+                :target     => "/usr/share/keyrings/",
+              })
+            end
           end
 
-          it do should contain_file("puppetlabs-keyring.gpg").with({
-            :path       => "/usr/share/keyrings/puppetlabs-keyring.gpg",
-            :ensure     => "file",
-            :source     => "puppet:///modules/debbuilder/puppetlabs-keyring.gpg",
-            :owner      => "root",
-            :group      => "root",
-            :mode       => "0644",
-            })
+          keyrings.each do |key|
+            it do should contain_file(key).with({
+                :path       => "/usr/share/keyrings//#{key}",
+                :ensure     => "file",
+                :source     => "puppet:///modules/debbuilder//#{key}",
+                :owner      => "root",
+                :group      => "root",
+                :mode       => "0644",
+              })
+            end
+
+            it do should contain_debbuilder__setup__keyring(key).with({
+                :source     => "puppet:///modules/debbuilder/",
+                :target     => "/usr/share/keyrings/",
+              })
+            end
           end
 
           it do

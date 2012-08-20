@@ -12,14 +12,4 @@ class debbuilder::packages::extra {
   ]
 
   package { $extra_packages: ensure => present, }
-
-  # The ubuntu-keyring isn't currently packaged for debian. Until that changes,
-  # it is being included as a source file deb.
-
-  package { "ubuntu-keyring":
-    ensure    => present,
-    provider  => 'dpkg',
-    source    => 'puppet:///modules/debbuilder/ubuntu-keyring_2012.05.19_all.deb'
-  }
-
 }
