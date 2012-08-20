@@ -2,7 +2,7 @@ define debbuilder::setup::cow_exec( $cow_root = '/var/cache/pbuilder' ) {
 
   exec { "${name}-i386":
     path          => "/usr/sbin:/usr/bin:/bin:/sbin",
-    command       => "cowbuilder --create --basepath=${cow_root} --debug",
+    command       => "cowbuilder --create --basepath=${cow_root}/base-${name}-i386.cow/ --debug",
     unless        => "test -e ${cow_root}/base-${name}-i386.cow",
     environment   => ["DIST=${name}", "ARCH=i386"],
     logoutput     => on_failure,
@@ -12,7 +12,7 @@ define debbuilder::setup::cow_exec( $cow_root = '/var/cache/pbuilder' ) {
 
   exec { "${name}-amd64":
     path          => "/usr/sbin:/usr/bin:/bin:/sbin",
-    command       => "cowbuilder --create --basepath=${cow_root} --debug",
+    command       => "cowbuilder --create --basepath=${cow_root}/base-${name}-amd64.cow/ --debug",
     unless        => "test -e ${cow_root}/base-${name}-amd64.cow",
     environment   => ["DIST=${name}", "ARCH=amd64"],
     logoutput     => on_failure,

@@ -23,7 +23,7 @@ describe 'debbuilder::setup::cow_exec', :type => :define do
       ['i386','amd64'].each do | arch |
         it do should contain_exec("#{title}-#{arch}").with( {
             :path         => "/usr/sbin:/usr/bin:/bin:/sbin",
-            :command      => "cowbuilder --create --basepath=#{param_hash[:cow_root]} --debug",
+            :command      => "cowbuilder --create --basepath=#{param_hash[:cow_root]}/base-#{title}-#{arch}.cow/ --debug",
             :unless       => "test -e #{param_hash[:cow_root]}/base-#{title}-#{arch}.cow",
             :environment  => ["DIST=#{title}", "ARCH=#{arch}"],
             :logoutput    => "on_failure",
