@@ -12,12 +12,15 @@ class debbuilder::setup::cows($cows = [
     $cow_root = '/var/cache/pbuilder',
     $pe = false) {
 
+  case $pe {
+      false:    { $cow_depends = [File["puppetlabs-keyring.gpg"], File["pbuilderrc"], Package["debian-keyring"], Package["debian-archive-keyring"], Package["ubuntu-keyring"]] }
+      true:     { $cow_depends = [File["puppetlabs-keyring.gpg"], File["pbuilderrc"], Package["debian-keyring"], Package["debian-archive-keyring"], Package["ubuntu-keyring"], File["pluto-build-keyring.gpg"]] }
+      default:  { fail("\$pe must be set to true or false.") }
+  }
+
   debbuilder::setup::cow_exec { $cows:
     cow_root    => $cow_root,
-    require     => $pe ? {
-      false     => [File["puppetlabs-keyring.gpg"], File["pbuilderrc"], Package["debian-keyring"], Package["debian-archive-keyring"], Package["ubuntu-keyring"]],
-      true      => [File["puppetlabs-keyring.gpg"], File["pbuilderrc"], Package["debian-keyring"], Package["debian-archive-keyring"], Package["ubuntu-keyring"], File["pluto-build-keyring.gpg"]],
-    }
+    require     => $cow_depends,
   }
 
   file { "puppetlabs-keyring.gpg":
