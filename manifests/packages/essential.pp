@@ -8,11 +8,15 @@ class debbuilder::packages::essential {
     "cdbs",
     "build-essential",
     "rake",
-    "ruby-rspec",
     "git",
     "pristine-tar",
   ]
 
-  package { $builder_packages: ensure => present, }
+  case $::lsbdistcodename {
+    /(wheezy|sid|testing|quantal)/: { $rspec = "ruby-rspec" }
+    default:                        { $rspec = "librspec-ruby" }
+  }
+
+  package { [$builder_packages, $rspec]: ensure => present, }
 
 }
