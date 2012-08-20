@@ -97,6 +97,15 @@ describe 'debbuilder::setup::cows', :type => :class do
               :mode       => "0644",
             })
           end
+
+          it do
+            should contain_file(param_hash[:cow_root]).with({
+              :ensure   => "directory",
+              :owner    => "root",
+              :group    => "root",
+              :mode     => "0755",
+            })
+          end
         else
           it "should throw an error if $pe isn't a bool" do
             expect { should raise_error(Puppet::Error) }

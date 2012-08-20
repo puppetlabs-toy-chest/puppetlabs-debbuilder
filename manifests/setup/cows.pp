@@ -13,8 +13,8 @@ class debbuilder::setup::cows($cows = [
     $pe = false) {
 
   case $pe {
-      false:    { $cow_depends = [File["puppetlabs-keyring.gpg"], File["pbuilderrc"], Package["debian-keyring"], Package["debian-archive-keyring"], File["ubuntu-archive-keyring.gpg"], File["ubuntu-archive-removed-keys.gpg"], File["ubuntu-master-keyring.gpg"]] }
-      true:     { $cow_depends = [File["puppetlabs-keyring.gpg"], File["pbuilderrc"], Package["debian-keyring"], Package["debian-archive-keyring"], File["ubuntu-archive-keyring.gpg"], File["ubuntu-archive-removed-keys.gpg"], File["ubuntu-master-keyring.gpg"], File["pluto-build-keyring.gpg"]] }
+      false:    { $cow_depends = [File[$cow_root], File["puppetlabs-keyring.gpg"], File["pbuilderrc"], Package["debian-keyring"], Package["debian-archive-keyring"], File["ubuntu-archive-keyring.gpg"], File["ubuntu-archive-removed-keys.gpg"], File["ubuntu-master-keyring.gpg"]] }
+      true:     { $cow_depends = [File[$cow_root], File["puppetlabs-keyring.gpg"], File["pbuilderrc"], Package["debian-keyring"], Package["debian-archive-keyring"], File["ubuntu-archive-keyring.gpg"], File["ubuntu-archive-removed-keys.gpg"], File["ubuntu-master-keyring.gpg"], File["pluto-build-keyring.gpg"]] }
       default:  { fail("\$pe must be set to true or false.") }
   }
 
@@ -24,6 +24,13 @@ class debbuilder::setup::cows($cows = [
   }
 
   debbuilder::setup::keyring { "puppetlabs-keyring.gpg": }
+
+  file { $cow_root:
+    ensure  => directory,
+    owner   => root,
+    group   => root,
+    mode    => 0755,
+  }
 
   file { "pbuilderrc":
     path      => "/etc/pbuilderrc",
