@@ -86,10 +86,11 @@
 #### debbuilder::setup::cow\_exec ####
 
   This defined type adds a cow for both i386 and amd64 arches for a given
-  debian or ubuntu variety. It also includes nightly cron jobs that keep the
-  cow up to date using the default repos. It takes an optional parameter of
-  cow\_root, which defaults to /var/cache/pbuilder to customize the basepath
-  for the created cows.
+  debian or ubuntu variety. It will only build the amd64 cow if on an amd64
+  machine, as a 64-bit cow will not function on a 32-bit machine. It also
+  includes nightly cron jobs that keep the cow up to date using the default
+  repos. It takes an optional parameter of cow\_root, which defaults to
+  /var/cache/pbuilder to customize the basepath for the created cows.
 
 #### debbuilder::setup::file\_on\_disk ####
 
