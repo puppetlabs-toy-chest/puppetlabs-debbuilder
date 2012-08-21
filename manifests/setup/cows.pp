@@ -30,6 +30,14 @@ class debbuilder::setup::cows($cows = [
     owner   => root,
     group   => root,
     mode    => 0755,
+    require => Exec[$cow_root],
+  }
+
+  exec { $cow_root:
+    command   => "/bin/mkdir -p '${cow_root}'",
+    user      => root,
+    path      => "/usr/bin:/bin",
+    unless    => "test -d '${cow_root}'",
   }
 
   file { "pbuilderrc":

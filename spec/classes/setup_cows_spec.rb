@@ -106,6 +106,15 @@ describe 'debbuilder::setup::cows', :type => :class do
               :mode     => "0755",
             })
           end
+
+          it do
+            should contain_exec(param_hash[:cow_root]).with({
+              :command    => "/bin/mkdir -p '#{param_hash[:cow_root]}'",
+              :user       => "root",
+              :path       => "/usr/bin:/bin",
+              :unless     => "test -d '#{param_hash[:cow_root]}'",
+            })
+          end
         else
           it "should throw an error if $pe isn't a bool" do
             expect { should raise_error(Puppet::Error) }
