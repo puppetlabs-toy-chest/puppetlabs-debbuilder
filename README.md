@@ -6,6 +6,24 @@
   solution. It brings in keyrings for debian and ubuntu and lays down a
   pbuilderrc in /etc to add the correct repos to a given cow.
 
+  After applying the module to a machine, it should be read to build packages
+  for the desired .
+
+## Cows? ##
+
+### What are cows? ###
+
+  Cow is short for copy-on-write. Cowbuilder makes clean chroots for any ubuntu
+  or debian release that can be used for building packages using pbuilder.  From
+  the cowbuilder and pbuildr package descriptions:
+
+  "pbuilder is a tool for building and testing Debian package inside a clean
+  chroot, and cowbuilder allows chroot to be recreated using hard-linked copies
+  with copy-on-write, which makes creation and destruction of chroots fast."
+
+  Cowbuilder and pbuilder are how Puppet Labs builds debian packages for our apt
+  repository.
+
 ## Example Usage ##
 <pre>
     class { "debbuilder":
@@ -23,8 +41,8 @@
 
 ### The Pieces ###
 
-  The module has four classes and one defined type included. The classes and
-  defined type can be used to create a builder setup as desired, but the base
+  The module has four classes and two defined type included. The classes and
+  defined types can be used to create a builder setup as desired, but the base
   debbuilder class takes four parameters that should be sufficient for most
   situations.
 
@@ -73,4 +91,8 @@
   cow\_root, which defaults to /var/cache/pbuilder to customize the basepath
   for the created cows.
 
+#### debbuilder::setup::file\_on\_disk ####
 
+  This defined type lays a file down on disk based on the title of the resource
+  and the optional source and target parameters. It is useful for laying down
+  multiple files in the same path without duplicating code.
