@@ -8,6 +8,7 @@ class debbuilder::packages::essential {
     "devscripts",
     "quilt",
     "dpatch",
+    "dh-make",
     "make",
     "cdbs",
     "build-essential",

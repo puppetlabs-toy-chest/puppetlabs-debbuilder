@@ -5,6 +5,7 @@ describe 'debbuilder::packages::essential', :type => :class do
     "devscripts",
     "quilt",
     "dpatch",
+    "dh-make",
     "make",
     "cdbs",
     "build-essential",
