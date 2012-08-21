@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe 'debbuilder::setup::keyring', :type => :define do
-  let(:title) { "my_keyring" }
+describe 'debbuilder::setup::file_on_disk', :type => :define do
+  let(:title) { "my_file" }
 
   let :default_params do
     { :source   => "puppet:///modules/debbuilder/",
-      :target   => "/usr/share/keyrings/",
+      :target   => "/usr/share/",
     }
   end
 

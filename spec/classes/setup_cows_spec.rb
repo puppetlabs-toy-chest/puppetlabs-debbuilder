@@ -34,6 +34,7 @@ describe 'debbuilder::setup::cows', :type => :class do
           end
 
           keyrings = ["ubuntu-archive-keyring.gpg", "ubuntu-master-keyring.gpg", "ubuntu-archive-removed-keys.gpg", "puppetlabs-keyring.gpg"]
+          debootstraps = ["oneiric", "precise", "quantal", "wheezy"]
 
           if param_hash[:pe] == true
             it do should contain_file("pluto-build-keyring.gpg").with({
@@ -46,7 +47,7 @@ describe 'debbuilder::setup::cows', :type => :class do
               })
             end
 
-            it do should contain_debbuilder__setup__keyring("pluto-build-keyring.gpg").with({
+            it do should contain_debbuilder__setup__file_on_disk("pluto-build-keyring.gpg").with({
                 :source     => "puppet:///modules/debbuilder/",
                 :target     => "/usr/share/keyrings/",
               })
@@ -62,7 +63,7 @@ describe 'debbuilder::setup::cows', :type => :class do
               })
             end
 
-            it do should_not contain_debbuilder__setup__keyring("pluto-build-keyring.gpg").with({
+            it do should_not contain_debbuilder__setup__file_on_disk("pluto-build-keyring.gpg").with({
                 :source     => "puppet:///modules/debbuilder/",
                 :target     => "/usr/share/keyrings/",
               })
@@ -80,9 +81,27 @@ describe 'debbuilder::setup::cows', :type => :class do
               })
             end
 
-            it do should contain_debbuilder__setup__keyring(key).with({
+            it do should contain_debbuilder__setup__file_on_disk(key).with({
                 :source     => "puppet:///modules/debbuilder/",
                 :target     => "/usr/share/keyrings/",
+              })
+            end
+          end
+
+          debootstraps.each do |script|
+            it do should contain_file(script).with({
+                :path       => "/usr/share/debootstrap/scripts//#{script}",
+                :ensure     => "file",
+                :source     => "puppet:///modules/debbuilder//#{script}",
+                :owner      => "root",
+                :group      => "root",
+                :mode       => "0644",
+              })
+            end
+
+            it do should contain_debbuilder__setup__file_on_disk(script).with({
+                :source     => "puppet:///modules/debbuilder/",
+                :target     => "/usr/share/debootstrap/scripts/",
               })
             end
           end

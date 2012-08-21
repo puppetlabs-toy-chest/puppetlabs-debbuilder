@@ -1,3 +1,8 @@
+# This defined type takes one parameter, the cow_root where the cows will be built.
+# Building cows takes a long time, so both execs in this defined type have timeout
+# set to 0. In my tests, each cow took between 5 and 10 minutes to complete. That
+# totals to between 90 and 180 minutes for a default run.
+
 define debbuilder::setup::cow_exec( $cow_root = '/var/cache/pbuilder' ) {
 
   exec { "${name}-i386":

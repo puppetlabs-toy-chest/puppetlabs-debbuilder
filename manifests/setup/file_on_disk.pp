@@ -1,6 +1,6 @@
-define debbuilder::setup::keyring (
+define debbuilder::setup::file_on_disk (
   $source = "puppet:///modules/debbuilder/",
-  $target = "/usr/share/keyrings/",
+  $target = "/usr/share/",
 ) {
   file { $title:
     path      => "${target}/${title}",
