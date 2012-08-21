@@ -6,16 +6,16 @@
   solution. It brings in keyrings for debian and ubuntu and lays down a
   pbuilderrc in /etc to add the correct repos to a given cow.
 
-  After applying the module to a machine, it should be read to build packages
-  for the desired .
+  After applying the module to a machine, it should be ready to build packages
+  for the desired release.
 
 ## Cows? ##
 
 ### What are cows? ###
 
-  Cow is short for copy-on-write. Cowbuilder makes clean chroots for any ubuntu
+  Cow is short for 'copy-on-write'. Cowbuilder makes clean chroots for any ubuntu
   or debian release that can be used for building packages using pbuilder.  From
-  the cowbuilder and pbuildr package descriptions:
+  the cowbuilder and pbuilder package descriptions:
 
   "pbuilder is a tool for building and testing Debian package inside a clean
   chroot, and cowbuilder allows chroot to be recreated using hard-linked copies
@@ -41,7 +41,7 @@
 
 ### The Pieces ###
 
-  The module has four classes and two defined type included. The classes and
+  The module has four classes and two defined types included. The classes and
   defined types can be used to create a builder setup as desired, but the base
   debbuilder class takes four parameters that should be sufficient for most
   situations.
@@ -56,7 +56,7 @@
   customize which cows will be created. If left undefined the cow\_exec defined
   type will create cows for all currently supported debian and ubuntu
   varieties. The cow\_root parameter can be set to override the default
-  basepath of /var/cache/pbuilder for the cows. The pe parameter enables
+  basepath of /var/cache/pbuilder for the cows. The 'pe' parameter enables
   internal Puppet Labs repos for the builder cow configs and also installs an
   internal builder public keyring.
 
@@ -76,7 +76,7 @@
   setup cows for both i386 and amd64 for either the supplied cows, or it
   defaults to all currently supported debian and ubuntu varieties. The
   cow\_root parameter can be used to customize the base location of the cow. It
-  defaults to /var/cache/pbuilder. The pe class parameter defaults to false and
+  defaults to /var/cache/pbuilder. The 'pe' class parameter defaults to false and
   is used to customize the pbuilderrc and also to determine whether or not to
   lay down the internal build keyring. This class also brings in the puppetlabs
   keyring for the cows, so they can use the puppetlabs repos to bring in build
