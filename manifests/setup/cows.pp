@@ -1,16 +1,30 @@
-class debbuilder::setup::cows($cows = [
-      "lucid",
-      "squeeze",
-      "natty",
-      "oneiric",
-      "precise",
-      "quantal",
-      "sid",
-      "stable",
-      "testing",
-    ],
-    $cow_root = '/var/cache/pbuilder',
-    $pe = false) {
+# This class does the heavy lifting in setting up the cows. It instantiates a
+# cow_exec for each of the cows, lays down needed keyrings to build up the cows
+# correctly, and lays down the customized pbuilderrc file to add the correct
+# repos to the cows.
+# It also lays down some needed debootstrap scripts that may not be there on
+# older versions of debian and ubuntu.  pluto-build-keyring is an internal
+# build keyring used when $pe is set to true to correctly verify the signature
+# of internal package repos.
+# It can take three parameters, $cows, $cow_root, and $pe. $cows customizes the
+# cows to build, $cow_root customizes the basedir from which to build the cows,
+# and $pe is a boolean that customizes the cows for Puppet Labs internal
+# builds.
+
+class debbuilder::setup::cows (
+  $cows = [
+    "lucid",
+    "squeeze",
+    "natty",
+    "oneiric",
+    "precise",
+    "quantal",
+    "sid",
+    "stable",
+    "testing",
+  ],
+  $cow_root = '/var/cache/pbuilder',
+  $pe = false) {
 
   case $pe {
       false:    { $cow_depends = [File[$cow_root], File["puppetlabs-keyring.gpg"], File["pbuilderrc"], Package["debian-keyring"], Package["debian-archive-keyring"], File["ubuntu-archive-keyring.gpg"], File["ubuntu-archive-removed-keys.gpg"], File["ubuntu-master-keyring.gpg"]] }
@@ -66,6 +80,8 @@ class debbuilder::setup::cows($cows = [
     target    => "/usr/share/debootstrap/scripts/",
   }
 
+  # If $pe is true, lay down the pluto-build-keyring to correctly
+  # validate the package repos.
   if $pe {
     debbuilder::setup::file_on_disk { "pluto-build-keyring.gpg": 
       source    => "puppet:///modules/debbuilder/",
