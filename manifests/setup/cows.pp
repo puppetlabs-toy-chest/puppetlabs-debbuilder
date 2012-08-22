@@ -37,7 +37,7 @@ class debbuilder::setup::cows (
     require     => $cow_depends,
   }
 
-  debbuilder::setup::file_on_disk { "puppetlabs-keyring.gpg":
+  debbuilder::util::file_on_disk { "puppetlabs-keyring.gpg":
     source    => "puppet:///modules/debbuilder/",
     target    => "/usr/share/keyrings/",
   }
@@ -69,13 +69,13 @@ class debbuilder::setup::cows (
 
   # The ubuntu-keyring isn't currently packaged for debian. Until that changes,
   # it is being added as four file resources
-  debbuilder::setup::file_on_disk { ["ubuntu-archive-keyring.gpg", "ubuntu-archive-removed-keys.gpg", "ubuntu-master-keyring.gpg"]:
+  debbuilder::util::file_on_disk { ["ubuntu-archive-keyring.gpg", "ubuntu-archive-removed-keys.gpg", "ubuntu-master-keyring.gpg"]:
     source    => "puppet:///modules/debbuilder/",
     target    => "/usr/share/keyrings/",
   }
 
   # Earlier debian and ubuntu versions won't have the scripts for newers versions for debootstrap
-  debbuilder::setup::file_on_disk { ["oneiric", "precise", "quantal", "wheezy"]: 
+  debbuilder::util::file_on_disk { ["oneiric", "precise", "quantal", "wheezy"]:
     source    => "puppet:///modules/debbuilder/",
     target    => "/usr/share/debootstrap/scripts/",
   }
@@ -83,7 +83,7 @@ class debbuilder::setup::cows (
   # If $pe is true, lay down the pluto-build-keyring to correctly
   # validate the package repos.
   if $pe {
-    debbuilder::setup::file_on_disk { "pluto-build-keyring.gpg": 
+    debbuilder::util::file_on_disk { "pluto-build-keyring.gpg":
       source    => "puppet:///modules/debbuilder/",
       target    => "/usr/share/keyrings/",
     }

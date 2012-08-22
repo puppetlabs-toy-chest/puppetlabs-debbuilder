@@ -12,9 +12,10 @@ class debbuilder::packages::extra {
     "debian-keyring",
     "debian-archive-keyring",
     "keychain",
-    "gnupg",
     "bash-completion",
   ]
 
   package { $extra_packages: ensure => present, }
+
+  class { "gpg": }
 }

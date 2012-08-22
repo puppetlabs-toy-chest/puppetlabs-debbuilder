@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe 'debbuilder::setup::cows', :type => :class do
+  let(:facts) do {
+    :operatingsystem        => "Debian",
+    :osfamily               => "Debian",
+    :operatingsystemrelease => "Wheezy",
+    }
+  end
   [
      {
        :cows      => [ "precise", "squeeze"],
@@ -47,7 +53,7 @@ describe 'debbuilder::setup::cows', :type => :class do
               })
             end
 
-            it do should contain_debbuilder__setup__file_on_disk("pluto-build-keyring.gpg").with({
+            it do should contain_debbuilder__util__file_on_disk("pluto-build-keyring.gpg").with({
                 :source     => "puppet:///modules/debbuilder/",
                 :target     => "/usr/share/keyrings/",
               })
@@ -63,7 +69,7 @@ describe 'debbuilder::setup::cows', :type => :class do
               })
             end
 
-            it do should_not contain_debbuilder__setup__file_on_disk("pluto-build-keyring.gpg").with({
+            it do should_not contain_debbuilder__util__file_on_disk("pluto-build-keyring.gpg").with({
                 :source     => "puppet:///modules/debbuilder/",
                 :target     => "/usr/share/keyrings/",
               })
@@ -81,7 +87,7 @@ describe 'debbuilder::setup::cows', :type => :class do
               })
             end
 
-            it do should contain_debbuilder__setup__file_on_disk(key).with({
+            it do should contain_debbuilder__util__file_on_disk(key).with({
                 :source     => "puppet:///modules/debbuilder/",
                 :target     => "/usr/share/keyrings/",
               })
@@ -99,7 +105,7 @@ describe 'debbuilder::setup::cows', :type => :class do
               })
             end
 
-            it do should contain_debbuilder__setup__file_on_disk(script).with({
+            it do should contain_debbuilder__util__file_on_disk(script).with({
                 :source     => "puppet:///modules/debbuilder/",
                 :target     => "/usr/share/debootstrap/scripts/",
               })

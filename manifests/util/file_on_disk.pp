@@ -2,7 +2,7 @@
 # code duplication. The source and target prefixes are customizable as long as
 # the end of the path is the same as the title of the resource.
 
-define debbuilder::setup::file_on_disk (
+define debbuilder::util::file_on_disk (
   $source = "puppet:///modules/debbuilder/",
   $target = "/usr/share/",
 ) {

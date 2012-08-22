@@ -6,3 +6,7 @@ license 'Puppet Enterprise Software License Agreement'
 summary 'Debian package builder'
 description 'Module to set up a debian builder'
 project_page 'https://github.com/haus/puppetlabs-debbuilder.git'
+
+## Add dependencies, if any:
+dependency 'puppetlabs/git', '>= 0.0.1'
+dependency 'puppetlabs/gpg', '>= 0.0.1'

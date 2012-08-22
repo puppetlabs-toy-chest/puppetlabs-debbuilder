@@ -1,0 +1,6 @@
+fixtures:
+  repositories:
+    "git": "git://github.com/puppetlabs-operations/puppet-git.git"
+    "gpg": "git://github.com/puppetlabs-operations/puppet-gpg.git"
+  symlinks:
+    "debbuilder": "#{source_dir}"

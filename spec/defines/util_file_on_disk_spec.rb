@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'debbuilder::setup::file_on_disk', :type => :define do
+describe 'debbuilder::util::file_on_disk', :type => :define do
   let(:title) { "my_file" }
 
   let :default_params do

@@ -17,15 +17,12 @@ class debbuilder::packages::essential {
   ]
 
   case $::lsbdistcodename {
-    /lucid/:  { $git = "git-core" }
-    default:  { $git = "git" }
-  }
-
-  case $::lsbdistcodename {
     /(wheezy|sid|testing|quantal)/: { $rspec = "ruby-rspec" }
     default:                        { $rspec = "librspec-ruby" }
   }
 
-  package { [$builder_packages, $rspec, $git]: ensure => present, }
+  package { [$builder_packages, $rspec]: ensure => present, }
+
+  class { "git": }
 
 }

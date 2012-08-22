@@ -1,6 +1,13 @@
 require 'spec_helper'
 
 describe 'debbuilder', :type => :class do
+  let(:facts) do {
+    :operatingsystem        => "Debian",
+    :osfamily               => "Debian",
+    :operatingsystemrelease => "Wheezy",
+    }
+  end
+
   let :default_params do
     {
       :pe       => false,
