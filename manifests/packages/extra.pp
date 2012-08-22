@@ -11,11 +11,10 @@ class debbuilder::packages::extra {
     "cowdancer",
     "debian-keyring",
     "debian-archive-keyring",
-    "keychain",
     "bash-completion",
   ]
 
   package { $extra_packages: ensure => present, }
 
-  class { "gpg": }
+  include "gpg"
 }

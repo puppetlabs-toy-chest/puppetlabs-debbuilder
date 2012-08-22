@@ -23,6 +23,6 @@ class debbuilder::packages::essential {
 
   package { [$builder_packages, $rspec]: ensure => present, }
 
-  class { "git": }
+  include "git"
 
 }
