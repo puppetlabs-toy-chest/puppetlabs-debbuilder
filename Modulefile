@@ -8,5 +8,5 @@ description 'Module to set up a debian builder'
 project_page 'https://github.com/haus/puppetlabs-debbuilder.git'
 
 ## Add dependencies, if any:
-dependency 'puppetlabs/git', '>= 0.0.1'
-dependency 'puppetlabs/gpg', '>= 0.0.1'
+dependency 'ploperations/git', '>= 0.0.1'
+dependency 'ploperations/gpg', '>= 0.0.1'
