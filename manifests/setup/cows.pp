@@ -101,6 +101,7 @@ class debbuilder::setup::cows (
   debbuilder::util::file_on_disk { ["oneiric", "precise", "quantal", "wheezy"]:
     source    => "puppet:///modules/debbuilder/",
     target    => "/usr/share/debootstrap/scripts/",
+    require   => Package["cowbuilder"],
   }
 
   # If $pe is true, lay down the pluto-build-keyring to correctly
