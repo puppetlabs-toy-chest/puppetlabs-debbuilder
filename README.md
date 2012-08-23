@@ -92,7 +92,7 @@
   repos. It takes an optional parameter of cow\_root, which defaults to
   /var/cache/pbuilder to customize the basepath for the created cows.
 
-#### debbuilder::setup::file\_on\_disk ####
+#### debbuilder::util::file\_on\_disk ####
 
   This defined type lays a file down on disk based on the title of the resource
   and the optional source and target parameters. It is useful for laying down

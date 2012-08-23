@@ -22,13 +22,36 @@ class debbuilder::setup::cows (
     "sid",
     "stable",
     "testing",
+    "unstable",
+    "wheezy",
   ],
   $cow_root = '/var/cache/pbuilder',
   $pe = false) {
 
   case $pe {
-      false:    { $cow_depends = [File[$cow_root], File["puppetlabs-keyring.gpg"], File["pbuilderrc"], Package["debian-keyring"], Package["debian-archive-keyring"], File["ubuntu-archive-keyring.gpg"], File["ubuntu-archive-removed-keys.gpg"], File["ubuntu-master-keyring.gpg"]] }
-      true:     { $cow_depends = [File[$cow_root], File["puppetlabs-keyring.gpg"], File["pbuilderrc"], Package["debian-keyring"], Package["debian-archive-keyring"], File["ubuntu-archive-keyring.gpg"], File["ubuntu-archive-removed-keys.gpg"], File["ubuntu-master-keyring.gpg"], File["pluto-build-keyring.gpg"]] }
+      false:    { $cow_depends = [
+          File[$cow_root],
+          File["puppetlabs-keyring.gpg"],
+          File["pbuilderrc"],
+          Package["debian-keyring"],
+          Package["debian-archive-keyring"],
+          File["ubuntu-archive-keyring.gpg"],
+          File["ubuntu-archive-removed-keys.gpg"],
+          File["ubuntu-master-keyring.gpg"]
+        ]
+      }
+      true:     { $cow_depends = [
+          File[$cow_root],
+          File["puppetlabs-keyring.gpg"],
+          File["pbuilderrc"],
+          Package["debian-keyring"],
+          Package["debian-archive-keyring"],
+          File["ubuntu-archive-keyring.gpg"],
+          File["ubuntu-archive-removed-keys.gpg"],
+          File["ubuntu-master-keyring.gpg"],
+          File["pluto-build-keyring.gpg"]
+        ]
+      }
       default:  { fail("\$pe must be set to true or false.") }
   }
 
@@ -68,7 +91,7 @@ class debbuilder::setup::cows (
   }
 
   # The ubuntu-keyring isn't currently packaged for debian. Until that changes,
-  # it is being added as four file resources
+  # it is being added as three file resources
   debbuilder::util::file_on_disk { ["ubuntu-archive-keyring.gpg", "ubuntu-archive-removed-keys.gpg", "ubuntu-master-keyring.gpg"]:
     source    => "puppet:///modules/debbuilder/",
     target    => "/usr/share/keyrings/",
