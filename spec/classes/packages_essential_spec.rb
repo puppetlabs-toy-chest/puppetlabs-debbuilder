@@ -18,6 +18,7 @@ describe 'debbuilder::packages::essential', :type => :class do
     "build-essential",
     "rake",
     "pristine-tar",
+    "fakeroot",
   ]
 
   mapping = [

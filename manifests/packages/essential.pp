@@ -14,6 +14,7 @@ class debbuilder::packages::essential {
     "build-essential",
     "rake",
     "pristine-tar",
+    "fakeroot",
   ]
 
   case $::lsbdistcodename {
