@@ -69,7 +69,12 @@ BUILDRESULT="/var/cache/pbuilder/${NAME}/result/"
 APTCACHE="/var/cache/pbuilder/${NAME}/aptcache/"
 BUILDPLACE="/var/cache/pbuilder/build/"
 #BINDMOUNTS="/var/cache/archive"
-OTHERMIRROR="deb http://apt.puppetlabs.com ${DIST} main dependencies"
+
+if [ -n "${FOSS_DEVEL}" ] ; then
+  OTHERMIRROR="deb http://apt.puppetlabs.com ${DIST} main dependencies devel"
+else
+  OTHERMIRROR="deb http://apt.puppetlabs.com ${DIST} main dependencies"
+fi
 
 # Add apt.puppetlabs.com keyrings
 DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/puppetlabs-keyring.gpg")
