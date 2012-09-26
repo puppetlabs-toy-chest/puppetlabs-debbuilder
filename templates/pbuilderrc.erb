@@ -35,23 +35,7 @@ fi
 # your own default (i.e. ${DIST:="unstable"}).
 : ${DIST:="$(lsb_release --short --codename)"}
 
-# Optionally change Debian release states in $DIST to their names.
-case "$DIST" in
-    unstable)
-        DIST="$UNSTABLE_CODENAME"
-        ;;
-    testing)
-        DIST="$TESTING_CODENAME"
-        ;;
-    stable)
-        DIST="$STABLE_CODENAME"
-        ;;
-    oldstable)
-        DIST="$OLD_STABLE_CODENAME"
-        ;;
-esac
 
- 
 # Optionally set the architecture to the host architecture if none set. Note
 # that you can set your own default (i.e. ${ARCH:="i386"}).
 : ${ARCH:="$(dpkg --print-architecture)"}
