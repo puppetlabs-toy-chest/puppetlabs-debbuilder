@@ -3,27 +3,26 @@
 # needed packages for building Puppet Labs products.
 
 class debbuilder::packages::essential {
-
   $builder_packages = [
-    "devscripts",
-    "quilt",
-    "dpatch",
-    "dh-make",
-    "make",
-    "cdbs",
-    "build-essential",
-    "rake",
-    "pristine-tar",
-    "fakeroot",
+    'build-essential',
+    'cdbs',
+    'devscripts',
+    'dh-make',
+    'dpatch',
+    'fakeroot',
+    'make',
+    'pristine-tar',
+    'quilt',
+    'rake',
   ]
 
   case $::lsbdistcodename {
-    /(wheezy|sid|testing|quantal)/: { $rspec = "ruby-rspec" }
-    default:                        { $rspec = "librspec-ruby" }
+    /(wheezy|sid|testing|quantal)/: { $rspec = 'ruby-rspec' }
+
+    default:                        { $rspec = 'librspec-ruby' }
   }
 
   package { [$builder_packages, $rspec]: ensure => present, }
 
-  include "git"
-
+  include git
 }

@@ -4,17 +4,16 @@
 # packages are needed for bootstrapping the cows during setup.
 
 class debbuilder::packages::extra {
-
   $extra_packages = [
-    "pbuilder",
-    "cowbuilder",
-    "cowdancer",
-    "debian-keyring",
-    "debian-archive-keyring",
-    "bash-completion",
+    'bash-completion',
+    'cowbuilder',
+    'cowdancer',
+    'debian-archive-keyring',
+    'debian-keyring',
+    'pbuilder',
   ]
 
   package { $extra_packages: ensure => present, }
 
-  include "gpg"
+  include gpg
 }
