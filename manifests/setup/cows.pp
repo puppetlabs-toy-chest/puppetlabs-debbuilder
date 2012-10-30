@@ -43,7 +43,7 @@ class debbuilder::setup::cows (
       true:     { $cow_depends = [
           File[$cow_root],
           File['pbuilderrc'],
-          File['pluto-build-keyring.gpg']
+          File['pluto-build-keyring.gpg'],
           File['puppetlabs-keyring.gpg'],
           File['ubuntu-archive-keyring.gpg'],
           File['ubuntu-archive-removed-keys.gpg'],
