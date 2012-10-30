@@ -15,6 +15,4 @@ class debbuilder::packages::extra {
   ]
 
   package { $extra_packages: ensure => present, }
-
-  include "gpg"
 }
