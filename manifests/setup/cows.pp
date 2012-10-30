@@ -35,7 +35,7 @@ class debbuilder::setup::cows (
           File['puppetlabs-keyring.gpg'],
           File['ubuntu-archive-keyring.gpg'],
           File['ubuntu-archive-removed-keys.gpg'],
-          File['ubuntu-master-keyring.gpg']
+          File['ubuntu-master-keyring.gpg'],
           Package['debian-keyring'],
           Package['debian-archive-keyring'],
         ]
