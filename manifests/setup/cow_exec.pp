@@ -18,7 +18,7 @@ define debbuilder::setup::cow_exec ( $cow_root = '/var/cache/pbuilder' ) {
 
     cron { "${name}-i386":
       command       => "cowbuilder --update --basepath=${cow_root}",
-      environment   => "DIST=${name} ARCH=i386 PATH=/usr/sbin:/usr/bin:/bin:/sbin",
+      environment   => ["DIST=${name}", 'ARCH=i386', 'PATH=/usr/sbin:/usr/bin:/bin:/sbin'],
       hour          => '2',
       minute        => '15',
       name          => "cowbuilder update for ${name}-i386",
@@ -39,7 +39,7 @@ define debbuilder::setup::cow_exec ( $cow_root = '/var/cache/pbuilder' ) {
 
     cron { "${name}-amd64":
       command       => "cowbuilder --update --basepath=${cow_root}",
-      environment   => "DIST=${name} ARCH=amd64 PATH=/usr/sbin:/usr/bin:/bin:/sbin",
+      environment   => ["DIST=${name}", 'ARCH=amd64', 'PATH=/usr/sbin:/usr/bin:/bin:/sbin'],
       hour          => '2',
       minute        => '15',
       name          => "cowbuilder update for ${name}-amd64",
