@@ -18,7 +18,6 @@ class debbuilder::packages::essential {
 
   case $::lsbdistcodename {
     /(wheezy|sid|testing|quantal)/: { $rspec = 'ruby-rspec' }
-
     default:                        { $rspec = 'librspec-ruby' }
   }
 
