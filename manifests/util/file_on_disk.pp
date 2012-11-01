@@ -3,8 +3,8 @@
 # the end of the path is the same as the title of the resource.
 
 define debbuilder::util::file_on_disk (
-  $source = "puppet:///modules/debbuilder/",
-  $target = "/usr/share/",
+  $source = 'puppet:///modules/debbuilder/',
+  $target = '/usr/share/',
 ) {
   file { $title:
     path      => "${target}/${title}",

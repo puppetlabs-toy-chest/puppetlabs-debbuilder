@@ -26,11 +26,11 @@
 
 ## Example Usage ##
 <pre>
-    class { "debbuilder":
+    class { 'debbuilder':
       pe        => false,
       use_cows  => true,
-      cows      => ["lucid", "squeeze", "precise"],
-      cow_root  => "/var/cache/debbuilder/pbuilder",
+      cows      => ['lucid', 'squeeze', 'precise'],
+      cow_root  => '/var/cache/debbuilder/pbuilder',
     }
 </pre>
 
