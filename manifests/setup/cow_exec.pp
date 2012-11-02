@@ -8,7 +8,7 @@ define debbuilder::setup::cow_exec ( $cow_root = '/var/cache/pbuilder' ) {
   if ($::architecture == 'i386' or $::architecture == 'amd64') {
     exec { "${name}-i386":
       path          => '/usr/sbin:/usr/bin:/bin:/sbin',
-      command       => "cowbuilder --create --basepath=${cow_root}/base-${title}-i386.cow/ --debug",
+      command       => "cowbuilder --create --basepath=${cow_root}/base-${name}-i386.cow/ --debug",
       unless        => "test -e ${cow_root}/base-${name}-i386.cow",
       environment   => ["DIST=${name}", 'ARCH=i386'],
       logoutput     => on_failure,
@@ -17,7 +17,7 @@ define debbuilder::setup::cow_exec ( $cow_root = '/var/cache/pbuilder' ) {
     }
 
     cron { "${name}-i386":
-      command       => "cowbuilder --update --basepath=${cow_root}/base-${title}-i386.cow",
+      command       => "cowbuilder --update --basepath=${cow_root}/base-${name}-i386.cow",
       environment   => ["DIST=${name}", 'ARCH=i386', 'PATH=/usr/sbin:/usr/bin:/bin:/sbin'],
       hour          => '2',
       minute        => '15',
