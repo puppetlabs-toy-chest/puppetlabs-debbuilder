@@ -54,7 +54,7 @@ APTCACHE="/var/cache/pbuilder/${NAME}/aptcache/"
 BUILDPLACE="/var/cache/pbuilder/build/"
 #BINDMOUNTS="/var/cache/archive"
 
-if [ -n "${FOSS_DEVEL}" ] ; then
+if [ "${FOSS_DEVEL}" = 'true' ] ; then
   OTHERMIRROR="deb http://apt.puppetlabs.com ${DIST} main dependencies devel"
 else
   OTHERMIRROR="deb http://apt.puppetlabs.com ${DIST} main dependencies"
