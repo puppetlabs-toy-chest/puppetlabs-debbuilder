@@ -10,6 +10,9 @@ STABLE_BACKPORTS_SUITE="$STABLE_CODENAME-backports"
 OLD_STABLE_CODENAME="lenny"
 OLD_STABLE_BACKPORTS_SUITE="$OLD_STABLE_CODENAME-backports"
 
+# Add a HOOKDIR to find the D10-man-db hook
+HOOKDIR=/usr/share/pbuilder/hooks
+
 # List of Debian suites.
 DEBIAN_SUITES=($UNSTABLE_CODENAME $TESTING_CODENAME $STABLE_CODENAME $OLD_STABLE_CODENAME "unstable" "testing" "stable")
 

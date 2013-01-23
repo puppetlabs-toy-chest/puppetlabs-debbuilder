@@ -140,6 +140,18 @@ describe 'debbuilder::setup::cows', :type => :class do
               :unless     => "test -d '#{param_hash[:cow_root]}'",
             })
           end
+
+          it do
+            should contain_file("/usr/share/pbuilder/hooks").with({
+              :ensure     => "directory",
+            })
+          end
+
+          it do should contain_debbuilder__util__file_on_disk("D10-man-db").with({
+              :source     => "puppet:///modules/debbuilder/",
+              :target     => "/usr/share/pbuilder/hooks/",
+            })
+          end
         else
           it "should throw an error if $pe isn't a bool" do
             expect { should raise_error(Puppet::Error) }
