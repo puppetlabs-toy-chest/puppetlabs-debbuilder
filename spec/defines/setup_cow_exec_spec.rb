@@ -38,8 +38,8 @@ describe 'debbuilder::setup::cow_exec', :type => :define do
               end
 
               it do should contain_cron("#{title}-#{arch}").with({
-                  :command      => "cowbuilder --update --basepath=#{param_hash[:cow_root]}/base-#{title}-#{arch}.cow/",
-                  :environment  => "DIST=#{title} ARCH=#{arch} PATH=/usr/sbin:/usr/bin:/bin:/sbin",
+                  :command      => "cowbuilder --update --basepath=#{param_hash[:cow_root]}/base-#{title}-#{arch}.cow > /dev/null 2>&1",
+                  :environment  => ["DIST=#{title}", "ARCH=#{arch}", "PATH=/usr/sbin:/usr/bin:/bin:/sbin"],
                   :hour         => "2",
                   :minute       => "15",
                   :user         => "root",
