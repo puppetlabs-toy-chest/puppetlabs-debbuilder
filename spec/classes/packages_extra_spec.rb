@@ -20,6 +20,4 @@ describe 'debbuilder::packages::extra', :type => :class do
     it { should contain_package(pkg).with_ensure("present") }
   end
 
-  it { should contain_class("gpg") }
-
 end

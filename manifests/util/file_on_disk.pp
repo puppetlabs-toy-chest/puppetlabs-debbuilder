@@ -5,6 +5,7 @@
 define debbuilder::util::file_on_disk (
   $source = 'puppet:///modules/debbuilder/',
   $target = '/usr/share/',
+  $mode   = '0644',
 ) {
   file { $title:
     path      => "${target}/${title}",
@@ -12,6 +13,6 @@ define debbuilder::util::file_on_disk (
     source    => "${source}/${title}",
     owner     => root,
     group     => root,
-    mode      => 0644,
+    mode      => "${mode}",
   }
 }

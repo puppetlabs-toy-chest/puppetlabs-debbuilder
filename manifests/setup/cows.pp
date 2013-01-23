@@ -73,6 +73,18 @@ class debbuilder::setup::cows (
     require => Exec[$cow_root],
   }
 
+  file { "/usr/share/pbuilder/hooks":
+    ensure  => directory,
+    require => Package["pbuilder"],
+  }
+
+  debbuilder::util::file_on_disk { 'D10-man-db':
+    source    => 'puppet:///modules/debbuilder/',
+    target    => '/usr/share/pbuilder/hooks/',
+    mode      => '0744',
+    require   => File["/usr/share/pbuilder/hooks"],
+  }
+
   exec { $cow_root:
     command   => "/bin/mkdir -p '${cow_root}'",
     user      => root,

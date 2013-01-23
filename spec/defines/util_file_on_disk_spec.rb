@@ -6,6 +6,7 @@ describe 'debbuilder::util::file_on_disk', :type => :define do
   let :default_params do
     { :source   => "puppet:///modules/debbuilder/",
       :target   => "/usr/share/",
+      :mode     => "0644",
     }
   end
 
@@ -13,6 +14,8 @@ describe 'debbuilder::util::file_on_disk', :type => :define do
     { :source   => "/tmp/file/",
     },
     { :target   => "/var/lib/apt/keyrings",
+    },
+    { :mode     => "4777",
     },
     {},
   ].each do |param_set|
@@ -32,7 +35,7 @@ describe 'debbuilder::util::file_on_disk', :type => :define do
           :source   => "#{param_hash[:source]}/#{title}",
           :owner    => "root",
           :group    => "root",
-          :mode     => "0644",
+          :mode     => "#{param_hash[:mode]}",
         })
       end
     end
