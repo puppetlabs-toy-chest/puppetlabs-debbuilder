@@ -17,6 +17,7 @@ class debbuilder::setup::cows (
     'oneiric',
     'precise',
     'quantal',
+    'raring',
     'sid',
     'squeeze',
     'stable',
