@@ -14,7 +14,6 @@
 class debbuilder::setup::cows (
   $cows = [
     'lucid',
-    'natty',
     'oneiric',
     'precise',
     'quantal',
