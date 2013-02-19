@@ -110,7 +110,7 @@ class debbuilder::setup::cows (
   }
 
   # Earlier debian and ubuntu versions won't have the scripts for newers versions for debootstrap
-  debbuilder::util::file_on_disk { ['oneiric', 'precise', 'quantal', 'wheezy']:
+  debbuilder::util::file_on_disk { ['oneiric', 'precise', 'quantal', 'wheezy', 'raring']:
     source    => 'puppet:///modules/debbuilder/',
     target    => '/usr/share/debootstrap/scripts/',
     require   => Package['cowbuilder'],
