@@ -95,5 +95,5 @@
 #### debbuilder::util::file\_on\_disk ####
 
   This defined type lays a file down on disk based on the title of the resource
-  and the optional source and target parameters. It is useful for laying down
-  multiple files in the same path without duplicating code.
+  and the optional source, target and mode parameters. It is useful for laying
+  down multiple files in the same path without duplicating code.
