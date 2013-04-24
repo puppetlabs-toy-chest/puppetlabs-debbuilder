@@ -11,6 +11,7 @@ class debbuilder::packages::extra {
     'debian-archive-keyring',
     'debian-keyring',
     'pbuilder',
+    'ruby-bundler',
   ]
 
   package { $extra_packages: ensure => present, }
