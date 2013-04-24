@@ -11,6 +11,7 @@ class debbuilder::packages::extra {
     'debian-archive-keyring',
     'debian-keyring',
     'pbuilder',
+    'libmysqlclient18',
   ]
 
   case $::lsbdistcodename {
