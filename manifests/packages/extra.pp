@@ -11,8 +11,12 @@ class debbuilder::packages::extra {
     'debian-archive-keyring',
     'debian-keyring',
     'pbuilder',
-    'ruby-bundler',
   ]
 
-  package { $extra_packages: ensure => present, }
+  case $::lsbdistcodename {
+      'precise': { $bundler = 'ruby-bundler' }
+      default:   { $bundler = 'bundler' }
+  }
+
+  package { [$extra_packages, $bundler]: ensure => present, }
 }
