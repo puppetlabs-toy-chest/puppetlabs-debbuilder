@@ -13,10 +13,5 @@ class debbuilder::packages::extra {
     'pbuilder',
   ]
 
-  case $::lsbdistcodename {
-      'precise': { $bundler = 'ruby-bundler' }
-      default:   { $bundler = 'bundler' }
-  }
-
-  package { [$extra_packages, $bundler]: ensure => present, }
+  package { $extra_packages: ensure => present, }
 }
