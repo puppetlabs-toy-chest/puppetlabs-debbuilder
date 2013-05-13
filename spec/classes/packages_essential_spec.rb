@@ -21,19 +21,8 @@ describe 'debbuilder::packages::essential', :type => :class do
     "fakeroot",
   ]
 
-  mapping = [
-    { :lsbrelease    => "wheezy",  :rspec => "ruby-rspec", },
-    { :lsbrelease    => "lucid",   :rspec => "librspec-ruby", },
-  ]
-
-  mapping.each do |fact_mapping|
-    context "with fact :lsbdistcodename set to #{fact_mapping[:lsbrelease]}" do
-      let(:facts) do common_facts.merge({ :lsbdistcodename => fact_mapping[:lsbrelease], }) end
-
-      (packages + [fact_mapping[:rspec]]).each do |pkg|
-        it { should contain_package(pkg).with_ensure("present") }
-      end
-    end
+  packages.each do |pkg|
+    it { should contain_package(pkg).with_ensure("present") }
   end
 
   let(:facts) do common_facts end

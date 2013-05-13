@@ -16,12 +16,7 @@ class debbuilder::packages::essential {
     'rake',
   ]
 
-  case $::lsbdistcodename {
-    /(wheezy|sid|testing|quantal)/: { $rspec = 'ruby-rspec' }
-    default:                        { $rspec = 'librspec-ruby' }
-  }
-
-  package { [$builder_packages, $rspec]: ensure => present, }
+  package { $builder_packages: ensure => present, }
 
   include git
 }

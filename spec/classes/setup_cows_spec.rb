@@ -20,7 +20,7 @@ describe 'debbuilder::setup::cows', :type => :class do
   ].each do |param_set|
     context "when #{param_set == {} ? "using default" : "specifying"} class parameters" do
       default_params =
-      { :cows     => [ "lucid", "squeeze", "natty", "oneiric", "precise", "quantal", "sid", "stable", "testing", "unstable", "wheezy" ],
+      { :cows     => [ "lucid", "squeeze", "oneiric", "precise", "quantal", "sid", "stable", "testing", "unstable", "wheezy" ],
         :cow_root => "/var/cache/pbuilder",
         :pe       => false,
       }
