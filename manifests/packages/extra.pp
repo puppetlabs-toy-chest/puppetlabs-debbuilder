@@ -12,6 +12,7 @@ class debbuilder::packages::extra {
     'debian-keyring',
     'pbuilder',
     'git-buildpackage',
+    'libparse-debianchangelog-perl',
   ]
 
   package { $extra_packages: ensure => present, }
