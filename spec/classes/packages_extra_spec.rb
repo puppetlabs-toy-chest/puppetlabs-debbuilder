@@ -14,6 +14,8 @@ describe 'debbuilder::packages::extra', :type => :class do
     "cowdancer",
     "debian-keyring",
     "debian-archive-keyring",
+    "git-buildpackage",
+    "libparse-debianchangelog-perl",
   ]
 
   packages.each do |pkg|
