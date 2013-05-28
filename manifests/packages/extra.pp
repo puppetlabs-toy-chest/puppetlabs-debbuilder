@@ -11,6 +11,7 @@ class debbuilder::packages::extra {
     'debian-archive-keyring',
     'debian-keyring',
     'pbuilder',
+    'git-buildpackage',
   ]
 
   package { $extra_packages: ensure => present, }
