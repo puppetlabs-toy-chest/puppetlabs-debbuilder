@@ -3,7 +3,10 @@
 # helpful when dealing with cowbuilder on the command line.  The debian keyring
 # packages are needed for bootstrapping the cows during setup.
 
-class debbuilder::packages::extra {
+class debbuilder::packages::extra (
+  $pe = false
+){
+
   $extra_packages = [
     'bash-completion',
     'cowbuilder',
@@ -16,4 +19,10 @@ class debbuilder::packages::extra {
   ]
 
   package { $extra_packages: ensure => present, }
+
+  if ($pe) {
+    package { 'cowsay':
+      ensure => present,
+    }
+  }
 }
