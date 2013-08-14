@@ -14,7 +14,9 @@ class debbuilder (
   include debbuilder::packages::essential
 
   if ($use_cows) {
-    include debbuilder::packages::extra
+    class { 'debbuilder::packages::extra':
+      pe => $pe,
+    }
 
     class { 'debbuilder::setup::cows':
       cows => $cows,
