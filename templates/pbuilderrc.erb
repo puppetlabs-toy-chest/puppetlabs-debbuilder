@@ -1,13 +1,14 @@
 set -e
 BUILDRESULTUID=$SUDO_UID
 ALLOWUNTRUSTED=yes
+USEDEVSHM=no
 # Codenames for Debian suites according to their alias. Update these when
 # needed.
 UNSTABLE_CODENAME="sid"
-TESTING_CODENAME="wheezy"
-STABLE_CODENAME="squeeze"
+TESTING_CODENAME="jessie"
+STABLE_CODENAME="wheezy"
 STABLE_BACKPORTS_SUITE="$STABLE_CODENAME-backports"
-OLD_STABLE_CODENAME="lenny"
+OLD_STABLE_CODENAME="squeeze"
 OLD_STABLE_BACKPORTS_SUITE="$OLD_STABLE_CODENAME-backports"
 
 # Add a HOOKDIR to find the D10-man-db hook
@@ -17,7 +18,7 @@ HOOKDIR=/usr/share/pbuilder/hooks
 DEBIAN_SUITES=($UNSTABLE_CODENAME $TESTING_CODENAME $STABLE_CODENAME $OLD_STABLE_CODENAME "unstable" "testing" "stable")
 
 # List of Ubuntu suites. Update these when needed.
-UBUNTU_SUITES=("maverick" "lucid" "karmic" "jaunty" "hardy" "natty" "oneiric" "precise" "quantal" "raring")
+UBUNTU_SUITES=("maverick" "lucid" "karmic" "jaunty" "hardy" "natty" "oneiric" "precise" "quantal" "raring" "saucy")
 
 # Mirrors to use. Update these to your preferred mirror.
 DEBIAN_MIRROR="ftp.us.debian.org"
