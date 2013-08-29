@@ -15,7 +15,6 @@ class debbuilder::setup::cows (
   $cows = [
     'jessie',
     'lucid',
-    'oneiric',
     'precise',
     'quantal',
     'raring',
