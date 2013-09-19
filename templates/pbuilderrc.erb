@@ -70,7 +70,7 @@ APTKEYRINGS="/usr/share/keyrings/puppetlabs-keyring.gpg"
 
 <% if scope.lookupvar("debbuilder::setup::cows::pe") then %>
 if [ -n "${PE_VER}" ]; then
-  OTHERMIRROR="${OTHERMIRROR} | deb http://freight.puppetlabs.lan ${PE_VER} ${DIST}"
+  OTHERMIRROR="${OTHERMIRROR} | deb http://enterprise.delivery.puppetlabs.net/${PE_VER}/repos/debian ${DIST} main"
 
   # Add pluto
   DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/pluto-build-keyring.gpg")
