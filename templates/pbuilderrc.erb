@@ -55,6 +55,7 @@ BASEPATH="<%= scope.lookupvar("debbuilder::setup::cows::cow_root") %>/base-${NAM
 DISTRIBUTION="$DIST"
 BUILDRESULT="/var/cache/pbuilder/${NAME}/result/"
 APTCACHE="/var/cache/pbuilder/${NAME}/aptcache/"
+APTCACHEHARDLINK=no
 BUILDPLACE="/var/cache/pbuilder/build/"
 #BINDMOUNTS="/var/cache/archive"
 
