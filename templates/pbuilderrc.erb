@@ -21,9 +21,9 @@ DEBIAN_SUITES=($UNSTABLE_CODENAME $TESTING_CODENAME $STABLE_CODENAME $OLD_STABLE
 UBUNTU_SUITES=("maverick" "lucid" "karmic" "jaunty" "hardy" "natty" "oneiric" "precise" "quantal" "raring" "saucy")
 
 # Mirrors to use. Update these to your preferred mirror.
-DEBIAN_MIRROR="ftp.us.debian.org"
-DEBIAN_ARCHIVE_MIRROR="archive.debian.org"
-UBUNTU_MIRROR="us.archive.ubuntu.com"
+DEBIAN_MIRROR="<%= scope.lookupvar("debbuilder::debian_mirror") %>"
+DEBIAN_ARCHIVE_MIRROR="<%= scope.lookupvar("debbuilder::debian_archive_mirror") %>"
+UBUNTU_MIRROR="<%= scope.lookupvar("debbuilder::ubuntu_mirror") %>"
 
 # Optionally use the changelog of a package to determine the suite to use if
 # none set.
