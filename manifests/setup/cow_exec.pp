@@ -26,23 +26,43 @@ define debbuilder::setup::cow_exec ( $cow_root = '/var/cache/pbuilder' ) {
     }
   }
 
-  if ($::architecture == 'amd64') {
-    exec { "${name}-amd64":
+  if ($::architecture =~ /(?i)(amd64|arm(el|hf)?)/) {
+    exec { "${name}-${::architecture}":
       path          => '/usr/sbin:/usr/bin:/bin:/sbin',
-      command       => "cowbuilder --create --basepath=${cow_root}/base-${name}-amd64.cow/ --debug",
-      unless        => "test -e ${cow_root}/base-${name}-amd64.cow",
-      environment   => ["DIST=${name}", 'ARCH=amd64'],
+      command       => "cowbuilder --create --basepath=${cow_root}/base-${name}-${::architecture}/ --debug",
+      unless        => "test -e ${cow_root}/base-${name}-${::architecture}.cow",
+      environment   => ["DIST=${name}", "ARCH=${::architecture}"],
       logoutput     => on_failure,
       user          => root,
       timeout       => 0,
     }
 
-    cron { "${name}-amd64":
-      command       => "cowbuilder --update --basepath=${cow_root}/base-${name}-amd64.cow > /dev/null 2>&1",
-      environment   => ["DIST=${name}", 'ARCH=amd64', 'PATH=/usr/sbin:/usr/bin:/bin:/sbin'],
+    cron { "${name}-${::architecture}":
+      command       => "cowbuilder --update --basepath=${cow_root}/base-${name}-${::architecture}.cow > /dev/null 2>&1",
+      environment   => ["DIST=${name}", "ARCH=${::architecture}", 'PATH=/usr/sbin:/usr/bin:/bin:/sbin'],
       hour          => '2',
       minute        => '15',
-      name          => "cowbuilder update for ${name}-amd64",
+      name          => "cowbuilder update for ${name}-${::architecture}",
+      user          => root,
+    }
+  }
+
+  if ($::architecture =~ /(?i)(powerpc|ppc(64|32)?)$/) {
+    exec { "${name}-powerpc":
+      command       => "cowbuilder --create --basepath=${cow_root}/base-${name}-powerpc.cow/ --debug",
+      unless        => "test -e ${cow_root}/base-${name}-powerpc.cow",
+      environment   => ["DIST=${name}", "ARCH=powerpc"],
+      logoutput     => on_failure,
+      user          => root,
+      timeout       => 0,
+    }
+
+    cron { "${name}-powerpc":
+      command       => "cowbuilder --update --basepath=${cow_root}/base-${name}-powerpc.cow > /dev/null 2>&1",
+      environment   => ["DIST=${name}", "ARCH=powerpc", 'PATH=/usr/sbin:/usr/bin:/bin:/sbin'],
+      hour          => '2',
+      minute        => '15',
+      name          => "cowbuilder update for ${name}-powerpc",
       user          => root,
     }
   }
