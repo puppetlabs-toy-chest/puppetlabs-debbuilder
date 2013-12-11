@@ -6,7 +6,18 @@
 # setting the cows up (if $use_cows is set to true). $debian_mirror,
 # $debian_archive_mirror, and $ubuntu_mirror can be used to specify the mirrors
 # that will be used by pbuilder/cowbuilder during dependency resolution/OS
-# build.
+# build. $other_mirror can be used to specify an extra repository in addition
+# to the OS mirror to use when satisfying dependencies. If not specified, this
+# defaults to apt.puppetlabs.com (which has been the historic behavior). If
+# specifies, it replaces apt.puppetlabs.com. Note that unlike the debian and
+# ubuntu OS mirrors, this mirror must be specified as a repo config, e.g.:
+#
+# "deb http://apt.puppetlabs.com ${DIST} main dependencies"
+#
+# where $DIST is wheezy, precise, etc.
+#
+# $install_pl_keyring enables the installation of the Puppet Labs gpg keyring.
+# This defaults to true, which has been the historic behavior.
 
 class debbuilder (
   $pe = false,
@@ -16,6 +27,8 @@ class debbuilder (
   $debian_mirror = 'ftp.us.debian.org',
   $debian_archive_mirror = 'archive.debian.org',
   $ubuntu_mirror = 'us.archive.ubuntu.com',
+  $other_mirror = undef,
+  $install_pl_keyring = true,
 ) {
   include debbuilder::packages::essential
 
