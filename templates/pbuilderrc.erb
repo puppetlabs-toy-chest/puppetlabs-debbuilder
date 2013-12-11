@@ -59,20 +59,28 @@ APTCACHEHARDLINK=no
 BUILDPLACE="/var/cache/pbuilder/build/"
 #BINDMOUNTS="/var/cache/archive"
 
+<% if @install_pl_keyring %>
+# Add apt.puppetlabs.com keyrings
+DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/puppetlabs-keyring.gpg")
+APTKEYRINGS="/usr/share/keyrings/puppetlabs-keyring.gpg"
+<% end %>
+
+<% if @other_mirror %>
+OTHERMIRROR="<%= @other_mirror %>"
+<% else %>
 if [ "${FOSS_DEVEL}" = 'true' ] ; then
   OTHERMIRROR="deb http://apt.puppetlabs.com ${DIST} main dependencies devel"
 else
   OTHERMIRROR="deb http://apt.puppetlabs.com ${DIST} main dependencies"
 fi
+<% end %>
 
-# Add apt.puppetlabs.com keyrings
-DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/puppetlabs-keyring.gpg")
-APTKEYRINGS="/usr/share/keyrings/puppetlabs-keyring.gpg"
 
-<% if scope.lookupvar("debbuilder::setup::cows::pe") then %>
+<% if scope.lookupvar("debbuilder::setup::cows::pe") %>
 if [ -n "${PE_VER}" ]; then
+  <% unless @other_mirror %>
   OTHERMIRROR="${OTHERMIRROR} | deb http://enterprise.delivery.puppetlabs.net/${PE_VER}/repos/debian ${DIST} ${DIST}/main"
-
+  <% end %>
   # Add pluto
   DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/pluto-build-keyring.gpg")
   APTKEYRINGS=("${APTKEYRINGS[@]}" "/usr/share/keyrings/pluto-build-keyring.gpg")
