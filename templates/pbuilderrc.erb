@@ -21,9 +21,23 @@ DEBIAN_SUITES=($UNSTABLE_CODENAME $TESTING_CODENAME $STABLE_CODENAME $OLD_STABLE
 UBUNTU_SUITES=("maverick" "lucid" "karmic" "jaunty" "hardy" "natty" "oneiric" "precise" "quantal" "raring" "saucy")
 
 # Mirrors to use. Update these to your preferred mirror.
-DEBIAN_MIRROR="<%= scope.lookupvar("debbuilder::debian_mirror") %>"
-DEBIAN_ARCHIVE_MIRROR="<%= scope.lookupvar("debbuilder::debian_archive_mirror") %>"
-UBUNTU_MIRROR="<%= scope.lookupvar("debbuilder::ubuntu_mirror") %>"
+<% if @debian_mirror %>
+DEBIAN_MIRROR="<%= @debian_mirror %>"
+<% else %>
+DEBIAN_MIRROR="ftp.us.debian.org"
+<% end %>
+
+<% if @debian_archive_mirror %>
+DEBIAN_ARCHIVE_MIRROR="<%= @debian_archive_mirror %>"
+<% else %>
+DEBIAN_ARCHIVE_MIRROR="archive.debian.org"
+<% end %>
+
+<% if @ubuntu_mirror %>
+UBUNTU_MIRROR="<%= @ubuntu_mirror %>"
+<% else %>
+UBUNTU_MIRROR="us.archive.ubuntu.com"
+<% end %>
 
 # Optionally use the changelog of a package to determine the suite to use if
 # none set.
@@ -89,12 +103,20 @@ fi
 
 if $(echo ${DEBIAN_SUITES[@]} | grep -q $DIST); then
     # Debian configuration
+<% if @debian_mirror %>
+    MIRRORSITE="http://<%= @debian_mirror %>"
+<% else %>
     if [ $DIST = "lenny" ]; then
       MIRRORSITE="http://$DEBIAN_ARCHIVE_MIRROR/debian/"
     else
       MIRRORSITE="http://$DEBIAN_MIRROR/debian/"
     fi
+<% end %>
+<% if @debian_components %>
+    COMPONENTS="<%= @debian_components %>"
+<% else %>
     COMPONENTS="main contrib non-free"
+<% end %>
     DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/debian-archive-keyring.gpg")
     # This is for enabling backports for the Debian stable suite.
     if $(echo "$STABLE_CODENAME stable" | grep -q $DIST); then
@@ -103,8 +125,16 @@ if $(echo ${DEBIAN_SUITES[@]} | grep -q $DIST); then
     fi
 elif $(echo ${UBUNTU_SUITES[@]} | grep -q $DIST); then
     # Ubuntu configuration
+<% if @ubuntu_mirror %>
+    MIRRORSITE="http://<%= @ubuntu_mirror %>"
+<% else %>
     MIRRORSITE="http://$UBUNTU_MIRROR/ubuntu/"
+<% end %>
+<% if @ubuntu_components %>
+    COMPONENTS="<%= @ubuntu_components %>"
+<% else %>
     COMPONENTS="main restricted universe multiverse"
+<% end %>
     DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/ubuntu-archive-keyring.gpg")
     OTHERMIRROR="$OTHERMIRROR"
 else
