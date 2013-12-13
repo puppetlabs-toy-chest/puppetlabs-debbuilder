@@ -18,15 +18,21 @@
 #
 # $install_pl_keyring enables the installation of the Puppet Labs gpg keyring.
 # This defaults to true, which has been the historic behavior.
+# $debian_components and $ubuntu_components allow you to specify the exact repo
+# components to select when satisfying dependencies. By default on debian this
+# is 'main contrib non-free' and on ubuntu this is 'main restricted universe
+# multiverse.'
 
 class debbuilder (
   $pe = false,
   $use_cows = false,
   $cows = undef,
   $cow_root = undef,
-  $debian_mirror = 'ftp.us.debian.org',
-  $debian_archive_mirror = 'archive.debian.org',
-  $ubuntu_mirror = 'us.archive.ubuntu.com',
+  $debian_mirror = undef,
+  $debian_archive_mirror = undef,
+  $debian_components = undef,
+  $ubuntu_mirror = undef,
+  $ubuntu_components = undef,
   $other_mirror = undef,
   $install_pl_keyring = true,
 ) {
