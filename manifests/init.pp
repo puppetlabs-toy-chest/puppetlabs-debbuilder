@@ -22,7 +22,27 @@
 # components to select when satisfying dependencies. By default on debian this
 # is 'main contrib non-free' and on ubuntu this is 'main restricted universe
 # multiverse.'
+#
+# $debootstrap_components allows you to specify the repository components to
+# use with debootstrap. By default, debootstrap always assumes a repo will have
+# 'main'. If you have a repo you are using for your debootstrap mirror, and it
+# doesn't have main, it isn't going to work. If this variable is used, the
+# resulting string will be inserted into the pbuilderrc as a DEBOOTSTRAPOPTS
+# element. This should be a comma-separated string of components.
+#
+# $debootstrap_keyring allows you to specify the exact keyring file to use when
+# debootstrapping a base system. This is important when you have your own
+# debian distribution repo signed with your key, not debian's. By default,
+# debootstrap will use the very last '--keyring' argument as its canonical
+# keyring, which in the pbbuilderrc is debian's or ubuntu's. by using this
+# option, you append an extra '--keyring' option to DEBOOTSTRAPOPTS with the
+# value. This should be the path to a keyring file on disk.
 
+# $debian_suites/ubuntu_suites allows you to specify the distributions that
+# are defined as "suites" in the pbuilderrc, which is useful if you
+# aren't building a commonly accepted debian distribution. This should be a
+# space-separated string of debian suites.
+#
 class debbuilder (
   $pe = false,
   $use_cows = false,
@@ -35,6 +55,10 @@ class debbuilder (
   $ubuntu_components = undef,
   $other_mirror = undef,
   $install_pl_keyring = true,
+  $debootstrap_components = undef,
+  $debootstrap_keyring = undef,
+  $debian_suites = undef,
+  $ubuntu_suites = undef,
 ) {
   include debbuilder::packages::essential
 

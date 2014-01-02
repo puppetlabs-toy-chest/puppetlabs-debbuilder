@@ -15,10 +15,18 @@ OLD_STABLE_BACKPORTS_SUITE="$OLD_STABLE_CODENAME-backports"
 HOOKDIR=/usr/share/pbuilder/hooks
 
 # List of Debian suites.
+<% if @debian_suites %>
+DEBIAN_SUITES=(<%= @debian_suites %>)
+<% else %>
 DEBIAN_SUITES=($UNSTABLE_CODENAME $TESTING_CODENAME $STABLE_CODENAME $OLD_STABLE_CODENAME "unstable" "testing" "stable")
+<% end %>
 
+<% if @ubuntu_suites %>
+UBUNTU_SUITES=(<%= @ubuntu_suites %>)
+<% else %>
 # List of Ubuntu suites. Update these when needed.
 UBUNTU_SUITES=("maverick" "lucid" "karmic" "jaunty" "hardy" "natty" "oneiric" "precise" "quantal" "raring" "saucy")
+<% end %>
 
 # Mirrors to use. Update these to your preferred mirror.
 <% if @debian_mirror %>
@@ -77,6 +85,11 @@ BUILDPLACE="/var/cache/pbuilder/build/"
 # Add apt.puppetlabs.com keyrings
 DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/puppetlabs-keyring.gpg")
 APTKEYRINGS="/usr/share/keyrings/puppetlabs-keyring.gpg"
+<% end %>
+
+<% if @debootstrap_components %>
+# Components to use while debootstrapping
+DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--components=<%= @debootstrap_components %>")
 <% end %>
 
 <% if @other_mirror %>
@@ -141,6 +154,10 @@ else
     echo "Unknown distribution: $DIST"
     exit 1
 fi
+
+<% if @debootstrap_keyring %>
+DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=<%= @debootstrap_keyring %>")
+<% end %>
 
 # Workaround for http://bugs.debian.org/531885
 umask 022
