@@ -38,12 +38,8 @@ describe 'debbuilder::setup::cow_exec', :type => :define do
               end
 
               it do should contain_cron("#{title}-i386").with({
-                  :command      => "cowbuilder --update --basepath=#{param_hash[:cow_root]}/base-#{title}-i386.cow > /dev/null 2>&1",
-                  :environment  => ["DIST=#{title}", "ARCH=i386", "PATH=/usr/sbin:/usr/bin:/bin:/sbin"],
-                  :hour         => "2",
-                  :minute       => "15",
-                  :user         => "root",
-                  :name         => "cowbuilder update for #{title}-i386",
+                  :name   => "cowbuilder update for #{title}-i386",
+                  :ensure => 'absent',
                 })
               end
             end
@@ -60,12 +56,8 @@ describe 'debbuilder::setup::cow_exec', :type => :define do
               end
 
               it do should contain_cron("#{title}-#{arch}").with({
-                  :command      => "cowbuilder --update --basepath=#{param_hash[:cow_root]}/base-#{title}-#{arch}.cow > /dev/null 2>&1",
-                  :environment  => ["DIST=#{title}", "ARCH=#{arch}", "PATH=/usr/sbin:/usr/bin:/bin:/sbin"],
-                  :hour         => "2",
-                  :minute       => "15",
-                  :user         => "root",
-                  :name         => "cowbuilder update for #{title}-#{arch}",
+                  :name   => "cowbuilder update for #{title}-#{arch}",
+                  :ensure => 'absent',
                 })
               end
             end
@@ -82,12 +74,8 @@ describe 'debbuilder::setup::cow_exec', :type => :define do
               end
 
               it do should contain_cron("#{title}-powerpc").with({
-                  :command      => "cowbuilder --update --basepath=#{param_hash[:cow_root]}/base-#{title}-powerpc.cow > /dev/null 2>&1",
-                  :environment  => ["DIST=#{title}", "ARCH=powerpc", "PATH=/usr/sbin:/usr/bin:/bin:/sbin"],
-                  :hour         => "2",
-                  :minute       => "15",
-                  :user         => "root",
-                  :name         => "cowbuilder update for #{title}-powerpc",
+                  :name   => "cowbuilder update for #{title}-powerpc",
+                  :ensure => 'absent',
                 })
               end
             end

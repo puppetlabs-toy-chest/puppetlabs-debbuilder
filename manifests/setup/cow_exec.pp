@@ -17,12 +17,8 @@ define debbuilder::setup::cow_exec ( $cow_root = '/var/cache/pbuilder' ) {
     }
 
     cron { "${name}-i386":
-      command       => "cowbuilder --update --basepath=${cow_root}/base-${name}-i386.cow > /dev/null 2>&1",
-      environment   => ["DIST=${name}", 'ARCH=i386', 'PATH=/usr/sbin:/usr/bin:/bin:/sbin'],
-      hour          => '2',
-      minute        => '15',
-      name          => "cowbuilder update for ${name}-i386",
-      user          => root,
+      name   => "cowbuilder update for ${name}-i386",
+      ensure => 'absent',
     }
   }
 
@@ -38,12 +34,8 @@ define debbuilder::setup::cow_exec ( $cow_root = '/var/cache/pbuilder' ) {
     }
 
     cron { "${name}-${::architecture}":
-      command       => "cowbuilder --update --basepath=${cow_root}/base-${name}-${::architecture}.cow > /dev/null 2>&1",
-      environment   => ["DIST=${name}", "ARCH=${::architecture}", 'PATH=/usr/sbin:/usr/bin:/bin:/sbin'],
-      hour          => '2',
-      minute        => '15',
-      name          => "cowbuilder update for ${name}-${::architecture}",
-      user          => root,
+      name   => "cowbuilder update for ${name}-${::architecture}",
+      ensure => 'absent',
     }
   }
 
@@ -58,12 +50,8 @@ define debbuilder::setup::cow_exec ( $cow_root = '/var/cache/pbuilder' ) {
     }
 
     cron { "${name}-powerpc":
-      command       => "cowbuilder --update --basepath=${cow_root}/base-${name}-powerpc.cow > /dev/null 2>&1",
-      environment   => ["DIST=${name}", "ARCH=powerpc", 'PATH=/usr/sbin:/usr/bin:/bin:/sbin'],
-      hour          => '2',
-      minute        => '15',
-      name          => "cowbuilder update for ${name}-powerpc",
-      user          => root,
+      name   => "cowbuilder update for ${name}-powerpc",
+      ensure => 'absent',
     }
   }
 }
