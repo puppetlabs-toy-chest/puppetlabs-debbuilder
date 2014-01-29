@@ -15,11 +15,6 @@ define debbuilder::setup::cow_exec ( $cow_root = '/var/cache/pbuilder' ) {
       user          => root,
       timeout       => 0,
     }
-
-    cron { "${name}-i386":
-      name   => "cowbuilder update for ${name}-i386",
-      ensure => 'absent',
-    }
   }
 
   if ($::architecture =~ /(?i)(amd64|arm(el|hf)?)/) {
@@ -32,11 +27,6 @@ define debbuilder::setup::cow_exec ( $cow_root = '/var/cache/pbuilder' ) {
       user          => root,
       timeout       => 0,
     }
-
-    cron { "${name}-${::architecture}":
-      name   => "cowbuilder update for ${name}-${::architecture}",
-      ensure => 'absent',
-    }
   }
 
   if ($::architecture =~ /(?i)(powerpc|ppc(64|32)?)$/) {
@@ -47,11 +37,6 @@ define debbuilder::setup::cow_exec ( $cow_root = '/var/cache/pbuilder' ) {
       logoutput     => on_failure,
       user          => root,
       timeout       => 0,
-    }
-
-    cron { "${name}-powerpc":
-      name   => "cowbuilder update for ${name}-powerpc",
-      ensure => 'absent',
     }
   }
 }
