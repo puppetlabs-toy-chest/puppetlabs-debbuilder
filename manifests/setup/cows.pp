@@ -23,6 +23,7 @@ class debbuilder::setup::cows (
     'squeeze',
     'stable',
     'testing',
+    'trusty',
     'unstable',
     'wheezy',
   ],
@@ -111,7 +112,7 @@ class debbuilder::setup::cows (
   }
 
   # Earlier debian and ubuntu versions won't have the scripts for newers versions for debootstrap
-  debbuilder::util::file_on_disk { ['precise', 'quantal', 'wheezy', 'raring', 'jessie', 'saucy']:
+  debbuilder::util::file_on_disk { ['jessie', 'precise', 'quantal', 'raring', 'saucy', 'trusty', 'wheezy']:
     source    => 'puppet:///modules/debbuilder/',
     target    => '/usr/share/debootstrap/scripts/',
     require   => Package['cowbuilder'],
