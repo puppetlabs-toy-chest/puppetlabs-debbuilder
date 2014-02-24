@@ -20,7 +20,7 @@ define debbuilder::setup::cow_exec ( $cow_root = '/var/cache/pbuilder' ) {
   if ($::architecture =~ /(?i)(amd64|arm(el|hf)?)/) {
     exec { "${name}-${::architecture}":
       path          => '/usr/sbin:/usr/bin:/bin:/sbin',
-      command       => "cowbuilder --create --basepath=${cow_root}/base-${name}-${::architecture}/ --debug",
+      command       => "cowbuilder --create --basepath=${cow_root}/base-${name}-${::architecture}.cow/ --debug",
       unless        => "test -e ${cow_root}/base-${name}-${::architecture}.cow",
       environment   => ["DIST=${name}", "ARCH=${::architecture}"],
       logoutput     => on_failure,
