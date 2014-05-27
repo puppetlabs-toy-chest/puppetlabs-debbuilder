@@ -106,7 +106,7 @@ fi
 <% if scope.lookupvar("debbuilder::setup::cows::pe") %>
 if [ -n "${PE_VER}" ]; then
   <% unless @other_mirror %>
-  OTHERMIRROR="${OTHERMIRROR} | deb http://enterprise.delivery.puppetlabs.net/${PE_VER}/repos/debian ${DIST} ${DIST}/main"
+  OTHERMIRROR="deb http://enterprise.delivery.puppetlabs.net/${PE_VER}/repos/debian ${DIST} ${DIST}/main"
   <% end %>
   # Add pluto
   DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/pluto-build-keyring.gpg")
