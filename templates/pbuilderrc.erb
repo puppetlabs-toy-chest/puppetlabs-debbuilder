@@ -92,27 +92,35 @@ APTKEYRINGS="/usr/share/keyrings/puppetlabs-keyring.gpg"
 DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--components=<%= @debootstrap_components %>")
 <% end %>
 
-<% if @other_mirror %>
-OTHERMIRROR="<%= @other_mirror %>"
-<% else %>
-if [ "${FOSS_DEVEL}" = 'true' ] ; then
-  OTHERMIRROR="deb http://apt.puppetlabs.com ${DIST} main dependencies devel"
-else
-  OTHERMIRROR="deb http://apt.puppetlabs.com ${DIST} main dependencies"
-fi
-<% end %>
+if [ -n "${BUILDMIRROR}" ]; then
+  OTHERMIRROR=$BUILDMIRROR
 
-
-<% if scope.lookupvar("debbuilder::setup::cows::pe") %>
-if [ -n "${PE_VER}" ]; then
-  <% unless @other_mirror %>
-  OTHERMIRROR="deb http://enterprise.delivery.puppetlabs.net/${PE_VER}/repos/debian ${DIST} ${DIST}/main"
-  <% end %>
-  # Add pluto
+  # Add internal signing key
   DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/pluto-build-keyring.gpg")
   APTKEYRINGS=("${APTKEYRINGS[@]}" "/usr/share/keyrings/pluto-build-keyring.gpg")
+else
+  <% if @other_mirror %>
+  OTHERMIRROR="<%= @other_mirror %>"
+  <% else %>
+  if [ "${FOSS_DEVEL}" = 'true' ] ; then
+    OTHERMIRROR="deb http://apt.puppetlabs.com ${DIST} main dependencies devel"
+  else
+    OTHERMIRROR="deb http://apt.puppetlabs.com ${DIST} main dependencies"
+  fi
+  <% end %>
+
+
+  <% if scope.lookupvar("debbuilder::setup::cows::pe") %>
+  if [ -n "${PE_VER}" ]; then
+    <% unless @other_mirror %>
+    OTHERMIRROR="deb http://enterprise.delivery.puppetlabs.net/${PE_VER}/repos/debian ${DIST} ${DIST}/main"
+    <% end %>
+    # Add internal signing key
+    DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/pluto-build-keyring.gpg")
+    APTKEYRINGS=("${APTKEYRINGS[@]}" "/usr/share/keyrings/pluto-build-keyring.gpg")
+  fi
+  <% end %>
 fi
-<% end %>
 
 if $(echo ${DEBIAN_SUITES[@]} | grep -q $DIST); then
     # Debian configuration
