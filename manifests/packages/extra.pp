@@ -43,4 +43,6 @@ class debbuilder::packages::extra (
       ensure => present,
     }
   }
+
+  include "gpg"
 }
