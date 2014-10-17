@@ -10,6 +10,9 @@ STABLE_CODENAME="wheezy"
 STABLE_BACKPORTS_SUITE="$STABLE_CODENAME-backports"
 OLD_STABLE_CODENAME="squeeze"
 OLD_STABLE_BACKPORTS_SUITE="$OLD_STABLE_CODENAME-backports"
+CUMULUS_SUITES="CumulusLinux-2.2"
+CUMULUS_MIRROR="osmirror.delivery.puppetlabs.net"
+CUMULUS_COMPONENTS="main addons security-updates testing updates"
 
 # Add a HOOKDIR to find the D10-man-db hook
 HOOKDIR=/usr/share/pbuilder/hooks
@@ -158,6 +161,23 @@ elif $(echo ${UBUNTU_SUITES[@]} | grep -q $DIST); then
 <% end %>
     DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/ubuntu-archive-keyring.gpg")
     OTHERMIRROR="$OTHERMIRROR"
+elif $(echo ${CUMULUS_SUITES[@]} | grep -q $DIST); then
+    # Cumulus configuration
+    MIRRORSITE="http://$CUMULUS_MIRROR/cumulus/"
+    COMPONENTS="$CUMULUS_COMPONENTS"
+    if [ -n "${PE_VER}" ]; then
+        OTHERMIRROR="deb http://enterprise.delivery.puppetlabs.net/${PE_VER}/repos/debian ${DIST} ${DIST}/main"
+    else
+    # We need to unset $OTHERMIRROR here because we don't have public apt repos for CumulusLinux
+        OTHERMIRROR=""
+    fi
+
+    # Add internal signing key for build tools repo
+    DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/pluto-build-keyring.gpg")
+    APTKEYRINGS=("${APTKEYRINGS[@]}" "/usr/share/keyrings/pluto-build-keyring.gpg")
+
+    OTHERMIRROR="$OTHERMIRROR | deb http://enterprise.delivery.puppetlabs.net/build-tools/debian/CumulusLinux $DIST build-tools"
+    DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/cumuluslinux-2.2-keyring.gpg")
 else
     echo "Unknown distribution: $DIST"
     exit 1

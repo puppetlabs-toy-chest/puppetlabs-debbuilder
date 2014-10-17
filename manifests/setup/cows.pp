@@ -24,6 +24,7 @@ class debbuilder::setup::cows (
     'trusty',
     'unstable',
     'wheezy',
+    'CumulusLinux-2.2',
   ],
   $cow_root = '/var/cache/pbuilder',
   $pe = false
@@ -36,6 +37,7 @@ class debbuilder::setup::cows (
           File['ubuntu-archive-keyring.gpg'],
           File['ubuntu-archive-removed-keys.gpg'],
           File['ubuntu-master-keyring.gpg'],
+          File['cumuluslinux-2.2-keyring.gpg'],
           Package['debian-keyring'],
           Package['debian-archive-keyring'],
         ]
@@ -48,6 +50,7 @@ class debbuilder::setup::cows (
           File['ubuntu-archive-keyring.gpg'],
           File['ubuntu-archive-removed-keys.gpg'],
           File['ubuntu-master-keyring.gpg'],
+          File['cumuluslinux-2.2-keyring.gpg'],
           Package['debian-keyring'],
           Package['debian-archive-keyring'],
         ]
@@ -102,15 +105,17 @@ class debbuilder::setup::cows (
     require   => [Package['cowbuilder'], Package['pbuilder']],
   }
 
-  # The ubuntu-keyring isn't currently packaged for debian. Until that changes,
-  # it is being added as three file resources
-  debbuilder::util::file_on_disk { ['ubuntu-archive-keyring.gpg', 'ubuntu-archive-removed-keys.gpg', 'ubuntu-master-keyring.gpg']:
+  # The ubuntu-keyring and cumuluslinux-keyring isn't currently packaged for debian.
+  # Until that changes, they are being added as four file resources
+  debbuilder::util::file_on_disk { ['ubuntu-archive-keyring.gpg', 'ubuntu-archive-removed-keys.gpg', 'ubuntu-master-keyring.gpg', 'cumuluslinux-2.2-keyring.gpg']:
     source    => 'puppet:///modules/debbuilder/',
     target    => '/usr/share/keyrings/',
   }
 
-  # Earlier debian and ubuntu versions won't have the scripts for newers versions for debootstrap
-  debbuilder::util::file_on_disk { ['jessie', 'precise', 'quantal', 'raring', 'saucy', 'trusty', 'wheezy']:
+  # Earlier debian and ubuntu versions won't have the scripts for newers versions for
+  # debootstrap.  We also lay down the script for cumuluslinux which is currently a
+  # copy of wheezy.
+  debbuilder::util::file_on_disk { ['jessie', 'precise', 'quantal', 'raring', 'saucy', 'trusty', 'wheezy', 'CumulusLinux-2.2']:
     source    => 'puppet:///modules/debbuilder/',
     target    => '/usr/share/debootstrap/scripts/',
     require   => Package['cowbuilder'],
