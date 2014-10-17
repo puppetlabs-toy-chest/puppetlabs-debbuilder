@@ -1,4 +1,6 @@
-# This is a copy of the wheezy deboostrap script 
+# This is a copy of the wheezy deboostrap script
+# It has been modified to work around a bug in the cl-basefiles package of cumulus
+# It needs to install openssh-server with the base system
 
 mirror_style release
 download_style apt
@@ -34,6 +36,7 @@ work_out_debs () {
 		# ldd.fake needs binutils
 		required="$required binutils"
 	fi
+	required="$required openssh-server"
 }
 
 first_stage_install () {
@@ -126,6 +129,9 @@ second_stage_install () {
 	if doing_variant -; then
 		x_core_install debconf
 	fi
+
+# Now we install openssh-server with the core packages, before cl-basefiles is unpacked and installed
+	x_core_install openssh-server
 
 	baseprog=0
 	bases=$(set -- $required; echo $#)
