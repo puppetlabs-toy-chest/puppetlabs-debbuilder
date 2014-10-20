@@ -6,14 +6,16 @@
 
 define debbuilder::setup::cow_exec ( $cow_root = '/var/cache/pbuilder' ) {
   if ($::architecture == 'i386' or $::architecture == 'amd64') {
-    exec { "${name}-i386":
-      path          => '/usr/sbin:/usr/bin:/bin:/sbin',
-      command       => "cowbuilder --create --basepath=${cow_root}/base-${name}-i386.cow/ --debug",
-      unless        => "test -e ${cow_root}/base-${name}-i386.cow",
-      environment   => ["DIST=${name}", 'ARCH=i386'],
-      logoutput     => on_failure,
-      user          => root,
-      timeout       => 0,
+    unless $name =~ /Cumulus/ {
+      exec { "${name}-i386":
+        path          => '/usr/sbin:/usr/bin:/bin:/sbin',
+        command       => "cowbuilder --create --basepath=${cow_root}/base-${name}-i386.cow/ --debug",
+        unless        => "test -e ${cow_root}/base-${name}-i386.cow",
+        environment   => ["DIST=${name}", 'ARCH=i386'],
+        logoutput     => on_failure,
+        user          => root,
+        timeout       => 0,
+      }
     }
   }
 
