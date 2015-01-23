@@ -23,6 +23,7 @@ class debbuilder::setup::cows (
     'testing',
     'trusty',
     'unstable',
+    'utopic',
     'wheezy',
     'CumulusLinux-2.2',
   ],
@@ -115,7 +116,7 @@ class debbuilder::setup::cows (
   # Earlier debian and ubuntu versions won't have the scripts for newers versions for
   # debootstrap.  We also lay down the script for cumuluslinux which is currently a
   # copy of wheezy.
-  debbuilder::util::file_on_disk { ['jessie', 'precise', 'quantal', 'raring', 'saucy', 'trusty', 'wheezy', 'CumulusLinux-2.2']:
+  debbuilder::util::file_on_disk { ['jessie', 'precise', 'quantal', 'raring', 'saucy', 'trusty', 'utopic', 'wheezy', 'CumulusLinux-2.2']:
     source    => 'puppet:///modules/debbuilder/',
     target    => '/usr/share/debootstrap/scripts/',
     require   => Package['cowbuilder'],
