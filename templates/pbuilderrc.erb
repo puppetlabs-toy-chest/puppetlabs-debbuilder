@@ -28,7 +28,7 @@ DEBIAN_SUITES=($UNSTABLE_CODENAME $TESTING_CODENAME $STABLE_CODENAME $OLD_STABLE
 UBUNTU_SUITES=(<%= @ubuntu_suites %>)
 <% else %>
 # List of Ubuntu suites. Update these when needed.
-UBUNTU_SUITES=("hardy" "jaunty" "karmic" "lucid" "maverick" "natty" "oneiric" "precise" "quantal" "raring" "saucy" "trusty" "utopic")
+UBUNTU_SUITES=("lucid" "precise" "trusty" "utopic" "vivid")
 <% end %>
 
 # Mirrors to use. Update these to your preferred mirror.
@@ -130,11 +130,7 @@ if $(echo ${DEBIAN_SUITES[@]} | grep -q $DIST); then
 <% if @debian_mirror %>
     MIRRORSITE="http://<%= @debian_mirror %>"
 <% else %>
-    if [ $DIST = "lenny" ]; then
-      MIRRORSITE="http://$DEBIAN_ARCHIVE_MIRROR/debian/"
-    else
-      MIRRORSITE="http://$DEBIAN_MIRROR/debian/"
-    fi
+    MIRRORSITE="http://$DEBIAN_MIRROR/debian/"
 <% end %>
 <% if @debian_components %>
     COMPONENTS="<%= @debian_components %>"
