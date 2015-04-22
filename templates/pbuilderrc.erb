@@ -50,6 +50,9 @@ UBUNTU_MIRROR="<%= @ubuntu_mirror %>"
 UBUNTU_MIRROR="us.archive.ubuntu.com"
 <% end %>
 
+# List of old debian/ubuntu suites that require the traditional apt mirror
+OLD_SUITES=($STABLE_CODENAME $TESTING_CODENAME $OLD_STABLE_CODENAME "testing" "stable" "lucid" "precise" "trusty" "utopic")
+
 # Optionally use the changelog of a package to determine the suite to use if
 # none set.
 if [ -z "${DIST}" ] && [ -r "debian/changelog" ]; then
@@ -105,11 +108,19 @@ else
   <% if @other_mirror %>
   OTHERMIRROR="<%= @other_mirror %>"
   <% else %>
-  if [ "${FOSS_DEVEL}" = 'true' ] ; then
-    OTHERMIRROR="deb http://apt.puppetlabs.com ${DIST} main dependencies devel"
-  else
-    OTHERMIRROR="deb http://apt.puppetlabs.com ${DIST} main dependencies"
+  components="PC1"
+  if $(echo ${OLD_SUITES[@]} | grep -q $DIST) ; then
+    old_components="main dependencies"
+    if [ "${DIST}" = "lucid" ] ; then
+      components="${old_components}"
+    else
+      components="${components} ${old_components}"
+    fi
   fi
+  if [ "${FOSS_DEVEL}" = 'true' ] ; then
+    components="${components} devel"
+  fi
+  OTHERMIRROR="deb http://apt.puppetlabs.com ${DIST} ${components}"
   <% end %>
 
 
