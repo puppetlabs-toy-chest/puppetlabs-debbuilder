@@ -100,10 +100,6 @@ DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--components=<%= @debootstrap_componen
 
 if [ -n "${BUILDMIRROR}" ]; then
   OTHERMIRROR=$BUILDMIRROR
-
-  # Add internal signing key
-  DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/pluto-build-keyring.gpg")
-  APTKEYRINGS=("${APTKEYRINGS[@]}" "/usr/share/keyrings/pluto-build-keyring.gpg")
 else
   <% if @other_mirror %>
   OTHERMIRROR="<%= @other_mirror %>"
