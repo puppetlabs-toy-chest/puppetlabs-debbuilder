@@ -116,7 +116,10 @@ else
   if [ "${FOSS_DEVEL}" = 'true' ] ; then
     components="${components} devel"
   fi
-  OTHERMIRROR="deb http://apt.puppetlabs.com ${DIST} ${components}"
+  no_pl_apt_repo=($UNSTABLE_CODENAME "unstable" )
+  if !(echo ${no_pl_apt_repo[@]} | grep -q $DIST) ; then
+    OTHERMIRROR="deb http://apt.puppetlabs.com ${DIST} ${components}"
+  fi
   <% end %>
 
 
