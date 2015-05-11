@@ -17,7 +17,6 @@ class debbuilder::packages::extra (
     'pbuilder',
     'git-buildpackage',
     'libparse-debianchangelog-perl',
-    'gnupg-agent',
   ]
 
   package { $extra_packages: ensure => present, }
