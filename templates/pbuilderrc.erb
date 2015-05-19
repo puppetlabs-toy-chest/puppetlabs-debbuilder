@@ -53,6 +53,9 @@ UBUNTU_MIRROR="us.archive.ubuntu.com"
 # List of old debian/ubuntu suites that require the traditional apt mirror
 OLD_SUITES=("squeeze" $STABLE_CODENAME $OLD_STABLE_CODENAME "testing" "stable" "lucid" "precise" "trusty" "utopic")
 
+# List of debian/ubuntu suites that do not have the PC1 repo available
+NO_PC1=("lucid" "stable" "testing")
+
 # Optionally use the changelog of a package to determine the suite to use if
 # none set.
 if [ -z "${DIST}" ] && [ -r "debian/changelog" ]; then
@@ -107,7 +110,7 @@ else
   components="PC1"
   if $(echo ${OLD_SUITES[@]} | grep -q $DIST) ; then
     old_components="main dependencies"
-    if [ "${DIST}" = "lucid" ] ; then
+    if $(echo ${NO_PC1[@]} | grep -q $DIST) ; then
       components="${old_components}"
     else
       components="${components} ${old_components}"
