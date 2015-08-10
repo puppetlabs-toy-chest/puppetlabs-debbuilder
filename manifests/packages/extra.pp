@@ -19,7 +19,9 @@ class debbuilder::packages::extra (
     'libparse-debianchangelog-perl',
   ]
 
-  package { $extra_packages: ensure => present, }
+  ensure_packages( $extra_packages, {
+    ensure => present,
+  })
 
   if ($pe) {
     file { 'puppetlabs lintian profile directory':
@@ -39,9 +41,9 @@ class debbuilder::packages::extra (
       require => File['puppetlabs lintian profile directory'],
     }
 
-    package { 'cowsay':
+    ensure_packages( 'cowsay', {
       ensure => present,
-    }
+    })
   }
 
   include "gpg"
