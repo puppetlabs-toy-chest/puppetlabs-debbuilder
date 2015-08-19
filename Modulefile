@@ -10,3 +10,4 @@ project_page 'https://github.com/puppetlabs/puppetlabs-debbuilder.git'
 ## Add dependencies, if any:
 dependency 'ploperations/git', '>= 0.0.1'
 dependency 'ploperations/gpg', '>= 0.0.1'
+dependency 'puppetlabs/stdlib', '>= 3.2.0'

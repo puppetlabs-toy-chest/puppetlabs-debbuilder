@@ -16,7 +16,9 @@ class debbuilder::packages::essential {
     'rake',
   ]
 
-  package { $builder_packages: ensure => present, }
+  ensure_packages( $builder_packages, {
+    ensure => present,
+  })
 
   include git
 }
