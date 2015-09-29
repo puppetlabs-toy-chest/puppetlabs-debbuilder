@@ -4,7 +4,8 @@
 # packages are needed for bootstrapping the cows during setup.
 
 class debbuilder::packages::extra (
-  $pe = false
+  $pe = false,
+  $ensure = present,
 ){
 
   $extra_packages = [
@@ -20,7 +21,7 @@ class debbuilder::packages::extra (
   ]
 
   ensure_packages( $extra_packages, {
-    ensure => present,
+    ensure => $ensure,
   })
 
   if ($pe) {
@@ -42,7 +43,7 @@ class debbuilder::packages::extra (
     }
 
     ensure_packages( 'cowsay', {
-      ensure => present,
+      ensure => $ensure,
     })
   }
 

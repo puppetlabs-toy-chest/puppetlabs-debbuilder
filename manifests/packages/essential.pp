@@ -2,7 +2,10 @@
 # when building with debbuild or dpkg-buildpackage. It also brings in the
 # needed packages for building Puppet Labs products.
 
-class debbuilder::packages::essential {
+class debbuilder::packages::essential (
+  $ensure = present,
+){
+
   $builder_packages = [
     'build-essential',
     'cdbs',
@@ -17,7 +20,7 @@ class debbuilder::packages::essential {
   ]
 
   ensure_packages( $builder_packages, {
-    ensure => present,
+    ensure => $ensure,
   })
 
   include git

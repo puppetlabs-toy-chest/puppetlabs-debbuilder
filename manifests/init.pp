@@ -45,6 +45,7 @@
 #
 class debbuilder (
   $pe = false,
+  $ensure = present,
   $use_cows = false,
   $cows = undef,
   $cow_root = undef,
@@ -60,11 +61,14 @@ class debbuilder (
   $debian_suites = undef,
   $ubuntu_suites = undef,
 ) {
-  include debbuilder::packages::essential
+  class { 'debbuilder::packages::essential':
+    ensure => $ensure,
+  }
 
   if ($use_cows) {
     class { 'debbuilder::packages::extra':
       pe => $pe,
+      ensure => $ensure,
     }
 
     class { 'debbuilder::setup::cows':
