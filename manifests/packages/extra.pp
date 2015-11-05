@@ -9,7 +9,6 @@ class debbuilder::packages::extra (
 ){
 
   $extra_packages = [
-    'bash-completion',
     'cowbuilder',
     'cowdancer',
     'debian-archive-keyring',
@@ -20,6 +19,11 @@ class debbuilder::packages::extra (
     'libparse-debianchangelog-perl',
   ]
 
+  if $debbuilder::manage_bashcompletion_package {
+    package { 'bash-completion':
+      ensure => $ensure,
+    }
+  }
   ensure_packages( $extra_packages, {
     ensure => $ensure,
   })

@@ -56,6 +56,7 @@ class debbuilder (
   $ubuntu_components = undef,
   $other_mirror = undef,
   $install_pl_keyring = true,
+  $manage_bashcompletion_package = true,
   $debootstrap_components = undef,
   $debootstrap_keyring = undef,
   $debian_suites = undef,
@@ -67,7 +68,7 @@ class debbuilder (
 
   if ($use_cows) {
     class { 'debbuilder::packages::extra':
-      pe => $pe,
+      pe     => $pe,
       ensure => $ensure,
     }
 
