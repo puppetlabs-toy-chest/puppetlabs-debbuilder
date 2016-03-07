@@ -28,7 +28,10 @@ class debbuilder::setup::cows (
     'CumulusLinux-2.2',
   ],
   $cow_root = '/var/cache/pbuilder',
-  $pe = false
+  $pe = false,
+  $debian_mirror = undef,
+  $debian_archive_mirror = undef,
+  $ubuntu_mirror = undef,
 ) {
   case $pe {
       false:    { $cow_depends = [
