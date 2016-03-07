@@ -76,6 +76,9 @@ class debbuilder (
       cows => $cows,
       cow_root => $cow_root,
       pe => $pe,
+      debian_mirror => $debian_mirror,
+      debian_archive_mirror => $debian_archive_mirror,
+      ubuntu_mirror => $ubuntu_mirror,
     }
   }
 }
