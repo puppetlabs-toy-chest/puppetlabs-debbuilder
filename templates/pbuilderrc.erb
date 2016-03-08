@@ -53,6 +53,9 @@ UBUNTU_MIRROR="us.archive.ubuntu.com"
 # List of old debian/ubuntu suites that require the traditional apt mirror
 OLD_SUITES=("lucid" "precise" "squeeze" "stable" "testing" "trusty" "wheezy")
 
+# List of ubuntu/debian suites that are archived
+DEBIAN_ARCHIVE_SUITES=("squeeze")
+
 # Optionally use the changelog of a package to determine the suite to use if
 # none set.
 if [ -z "${DIST}" ] && [ -r "debian/changelog" ]; then
@@ -132,12 +135,20 @@ else
 fi
 
 if $(echo ${DEBIAN_SUITES[@]} | grep -q $DIST); then
-    # Debian configuration
+  # Debian configuration
+  if $(echo ${DEBIAN_ARCHIVE_SUITES[@]} | grep -q $DIST); then
+<% if @debian_archive_mirror %>
+    MIRRORSITE="http://<%= @debian_archive_mirror %>"
+<% else %>
+    MIRRORSITE="http://$DEBIAN_ARCHIVE_MIRROR/debian/"
+<% end %>
+  else
 <% if @debian_mirror %>
     MIRRORSITE="http://<%= @debian_mirror %>"
 <% else %>
     MIRRORSITE="http://$DEBIAN_MIRROR/debian/"
 <% end %>
+  fi
 <% if @debian_components %>
     COMPONENTS="<%= @debian_components %>"
 <% else %>
