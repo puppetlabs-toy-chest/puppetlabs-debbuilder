@@ -21,7 +21,7 @@ HOOKDIR=/usr/share/pbuilder/hooks
 <% if @debian_suites %>
 DEBIAN_SUITES=(<%= @debian_suites %>)
 <% else %>
-DEBIAN_SUITES=("squeeze" $UNSTABLE_CODENAME $TESTING_CODENAME $STABLE_CODENAME $OLD_STABLE_CODENAME "unstable" "testing" "stable")
+DEBIAN_SUITES=("squeeze-lts" $UNSTABLE_CODENAME $TESTING_CODENAME $STABLE_CODENAME $OLD_STABLE_CODENAME "unstable" "testing" "stable")
 <% end %>
 
 <% if @ubuntu_suites %>
