@@ -74,9 +74,9 @@ class debbuilder::setup::cows (
 
   file { $cow_root:
     ensure  => directory,
-    owner   => root,
-    group   => root,
-    mode    => 0755,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
     require => Exec[$cow_root],
   }
 
@@ -103,9 +103,9 @@ class debbuilder::setup::cows (
     path      => '/etc/pbuilderrc',
     ensure    => file,
     content   => template('debbuilder/pbuilderrc.erb'),
-    owner     => root,
-    group     => root,
-    mode      => 0644,
+    owner     => 'root',
+    group     => 'root',
+    mode      => '0644',
     require   => [Package['cowbuilder'], Package['pbuilder']],
   }
 
