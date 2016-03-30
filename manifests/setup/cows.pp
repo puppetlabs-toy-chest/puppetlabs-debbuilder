@@ -16,12 +16,8 @@ class debbuilder::setup::cows (
     'jessie',
     'lucid',
     'precise',
-    'sid',
     'squeeze',
-    'stable',
-    'testing',
     'trusty',
-    'unstable',
     'utopic',
     'vivid',
     'wheezy',
@@ -122,7 +118,7 @@ class debbuilder::setup::cows (
   # cows of. All Debian varieties are symlinks now pointing to `debian` and all Ubuntu
   # varieties are symlinks pointing to `ubuntu`.
   # We also lay down the script for cumuluslinux which is currently a copy of wheezy.
-  debbuilder::util::file_on_disk { ['CumulusLinux-2.2', 'jessie', 'lucid', 'precise', 'sid', 'squeeze', 'stable', 'testing', 'trusty', 'unstable', 'utopic', 'vivid', 'wheezy', 'wily' ]:
+  debbuilder::util::file_on_disk { ['debian', 'ubuntu', $cows]:
     source    => 'puppet:///modules/debbuilder/',
     target    => '/usr/share/debootstrap/scripts/',
     require   => Package['cowbuilder'],
