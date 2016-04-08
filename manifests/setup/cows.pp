@@ -22,7 +22,8 @@ class debbuilder::setup::cows (
     'vivid',
     'wheezy',
     'CumulusLinux-2.2',
-    'wily'
+    'wily',
+    'xenial',
   ],
   $cow_root = '/var/cache/pbuilder',
   $pe = false,
