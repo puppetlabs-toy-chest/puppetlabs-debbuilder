@@ -16,6 +16,7 @@ class debbuilder::setup::cows (
     'jessie',
     'lucid',
     'precise',
+    'stretch',
     'squeeze',
     'trusty',
     'utopic',
