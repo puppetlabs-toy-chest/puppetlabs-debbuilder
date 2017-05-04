@@ -158,7 +158,7 @@ if $(echo ${DEBIAN_SUITES[@]} | grep -q $DIST); then
     # This is for enabling backports for the Debian stable suite.
     if $(echo "$STABLE_CODENAME stable" | grep -q $DIST); then
         EXTRAPACKAGES="$EXTRAPACKAGES"
-        OTHERMIRROR="$OTHERMIRROR"
+        OTHERMIRROR="$OTHERMIRROR | deb $MIRRORSITE $STABLE_BACKPORTS_SUITE $COMPONENTS"
     fi
 elif $(echo ${UBUNTU_SUITES[@]} | grep -q $DIST); then
     # Ubuntu configuration
