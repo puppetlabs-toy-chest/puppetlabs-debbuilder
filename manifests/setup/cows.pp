@@ -19,7 +19,6 @@ class debbuilder::setup::cows (
     'stretch',
     'squeeze',
     'trusty',
-    'utopic',
     'vivid',
     'wheezy',
     'CumulusLinux-2.2',
