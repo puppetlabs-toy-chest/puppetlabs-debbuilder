@@ -5,10 +5,11 @@ USEDEVSHM=no
 # Codenames for Debian suites according to their alias. Update these when
 # needed.
 UNSTABLE_CODENAME="sid"
-TESTING_CODENAME="stretch"
-STABLE_CODENAME="jessie"
+TESTING_CODENAME="buster"
+STABLE_CODENAME="stretch"
 STABLE_BACKPORTS_SUITE="$STABLE_CODENAME-backports"
-OLD_STABLE_CODENAME="wheezy"
+OLD_STABLE_CODENAME="jessie"
+OLD_OLD_STABLE_CODENAME="wheezy"
 OLD_STABLE_BACKPORTS_SUITE="$OLD_STABLE_CODENAME-backports"
 CUMULUS_SUITES="CumulusLinux-2.2"
 CUMULUS_MIRROR="osmirror.delivery.puppetlabs.net"
@@ -21,14 +22,14 @@ HOOKDIR=/usr/share/pbuilder/hooks
 <% if @debian_suites %>
 DEBIAN_SUITES=(<%= @debian_suites %>)
 <% else %>
-DEBIAN_SUITES=("squeeze" $UNSTABLE_CODENAME $TESTING_CODENAME $STABLE_CODENAME $OLD_STABLE_CODENAME "unstable" "testing" "stable")
+DEBIAN_SUITES=($UNSTABLE_CODENAME $OLD_OLD_STABLE_CODENAME $STABLE_CODENAME $OLD_STABLE_CODENAME)
 <% end %>
 
 <% if @ubuntu_suites %>
 UBUNTU_SUITES=(<%= @ubuntu_suites %>)
 <% else %>
 # List of Ubuntu suites. Update these when needed.
-UBUNTU_SUITES=("lucid" "precise" "trusty" "vivid" "wily" "xenial" "yakkety")
+UBUNTU_SUITES=("trusty" "xenial")
 <% end %>
 
 # Mirrors to use. Update these to your preferred mirror.
@@ -51,7 +52,7 @@ UBUNTU_MIRROR="us.archive.ubuntu.com"
 <% end %>
 
 # List of old debian/ubuntu suites that require the traditional apt mirror
-OLD_SUITES=("lucid" "precise" "squeeze" "stable" "testing" "trusty" "wheezy")
+OLD_SUITES=("wheezy" "trusty")
 
 # List of ubuntu/debian suites that are archived
 DEBIAN_ARCHIVE_SUITES=("squeeze")
