@@ -14,17 +14,11 @@
 class debbuilder::setup::cows (
   $cows = [
     'jessie',
-    'lucid',
-    'precise',
     'stretch',
-    'squeeze',
     'trusty',
-    'vivid',
     'wheezy',
     'CumulusLinux-2.2',
-    'wily',
     'xenial',
-    'yakkety',
   ],
   $cow_root = '/var/cache/pbuilder',
   $pe = false,
